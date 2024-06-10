@@ -3,7 +3,7 @@ function DrinksInProgress() {
     <section>
       <h1>Drinks in progress</h1>
     </section>
-  )
+  );
 }
 
 export default DrinksInProgress;

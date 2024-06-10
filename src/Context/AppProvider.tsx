@@ -8,8 +8,8 @@ function AppProvider({ children }: { children: React.ReactNode }) {
   };
   const [email, setEmail] = useState(getEmail());
   const [headerTitle, setHeaderTitle] = useState('Meals');
-  const [meals, setMeals] = useState<MealType[]>([])
-  const [drinks, setDrinks] = useState<DrinkType[]>([])
+  const [meals, setMeals] = useState<MealType[]>([]);
+  const [drinks, setDrinks] = useState<DrinkType[]>([]);
 
   const context = {
     email,
@@ -22,7 +22,7 @@ function AppProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <AppContext.Provider value={context}>
+    <AppContext.Provider value={ context }>
       <div>
         {children}
       </div>

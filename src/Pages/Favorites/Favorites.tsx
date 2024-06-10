@@ -1,18 +1,18 @@
-import { useContext, useEffect } from "react";
-import AppContext from "../../Context/AppContext";
+import { useContext, useEffect } from 'react';
+import AppContext from '../../Context/AppContext';
 
 function Favorites() {
-  const { setHeaderTitle } = useContext(AppContext)
+  const { setHeaderTitle } = useContext(AppContext);
 
   useEffect(() => {
-    setHeaderTitle('Favorite Recipes')
-  }, [])
+    setHeaderTitle('Favorite Recipes');
+  }, []);
 
   return (
     <section>
       <h1>Favorites</h1>
     </section>
-  )
+  );
 }
 
 export default Favorites;

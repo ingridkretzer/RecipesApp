@@ -5,7 +5,7 @@ function DrinkDetails() {
         DrinkDetails
       </h1>
     </section>
-  )
+  );
 }
 
 export default DrinkDetails;

@@ -3,7 +3,7 @@ function MealInProgress() {
     <section>
       Meal in progress
     </section>
-  )
-};
+  );
+}
 
 export default MealInProgress;

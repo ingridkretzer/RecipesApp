@@ -23,7 +23,7 @@ export const fetchByFirstLetter = async (param: string, letter: string) => {
   // }
   const data = await response.json();
   return data;
-}
+};
 
 export const fetchByCategory = async (param: string, category: string) => {
   const response = await fetch(`https://www.${param}.com/api/json/v1/1/filter.php?c=${category}`);
@@ -32,7 +32,7 @@ export const fetchByCategory = async (param: string, category: string) => {
   // }
   const data = await response.json();
   return data;
-}
+};
 
 export const fetchDetails = async (param: string, id: string) => {
   const response = await fetch(`https://www.${param}.com/api/json/v1/1/lookup.php?i=${id}`);
@@ -41,4 +41,4 @@ export const fetchDetails = async (param: string, id: string) => {
   // }
   const data = await response.json();
   return data;
-}
+};
