@@ -1,14 +1,14 @@
-import { useContext, useEffect } from "react"
-import AppContext from "../../Context/AppContext"
+import { useContext, useEffect } from "react";
+import AppContext from "../../Context/AppContext";
 
 function Profile() {
 
-  const { setHeaderTitle } = useContext(AppContext)
+  const { setHeaderTitle } = useContext(AppContext);
 
   useEffect((
   ) => {
     setHeaderTitle('Profile')
-  }, [])
+  }, []);
 
   return (
     <section>
@@ -19,4 +19,4 @@ function Profile() {
   )
 }
 
-export default Profile
+export default Profile;

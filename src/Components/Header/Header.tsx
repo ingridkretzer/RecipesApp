@@ -70,17 +70,18 @@ function Header() {
     if (headerTitle === 'Meals') {
       try {
         const response = await fetchByCategory('themealdb', value)
-        setMeals(response.meals)
+        setMeals(response.meals);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     }
+
     if (headerTitle === 'Drinks') {
       try {
         const response = await fetchByCategory('thecocktail', value)
-        setMeals(response.drinks)
+        setMeals(response.drinks);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     }
   };

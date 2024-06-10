@@ -1,12 +1,12 @@
 export type LoginType = {
   email: string,
   password: string,
-}
+};
 
 export type Recipes = {
   meals: MealType[],
   drinks: DrinkType[]
-}
+};
 
 export type MealType = {
   idMeal: string,
@@ -69,7 +69,7 @@ export type MealType = {
   strCreativeCommonsConfirmed: string,
   dateModified: string
   [key: string]: string
-}
+};
 
 export type DrinkType = {
   idDrink: string,
@@ -122,11 +122,11 @@ export type DrinkType = {
   strCreativeCommonsConfirmed: string,
   dateModified: string
   [key: string]: string
-}
+};
 
 export type CategoryType = {
   idCategory: string,
   strCategory: string,
   strCategoryThumb: string,
   strCategoryDescription: string
-}
+};

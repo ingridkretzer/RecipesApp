@@ -1,5 +1,5 @@
-import { useContext, useEffect } from "react"
-import AppContext from "../../Context/AppContext"
+import { useContext, useEffect } from "react";
+import AppContext from "../../Context/AppContext";
 
 function Drinks() {
 
@@ -8,13 +8,13 @@ function Drinks() {
   useEffect((
   ) => {
     setHeaderTitle('Drinks')
-  }, [])
+  }, []);
 
   return (
     <section>
       <h1>Drinks</h1>
     </section>
   )
-}
+};
 
-export default Drinks
+export default Drinks;
