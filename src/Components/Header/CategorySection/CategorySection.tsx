@@ -12,7 +12,7 @@ function CategorySection({ handleCategory }: CategorySectionProps) {
   return (
     <section>
       {
-        headerTitle === 'Comidas' ? (
+        headerTitle === 'Meals' ? (
           <section className={ styles.categoryheaderTitle }>
             <div className={ styles.categoryDivs }>
               <button

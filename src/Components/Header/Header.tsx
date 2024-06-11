@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import styles from './Header.module.css';
 import AppContext from '../../Context/AppContext';
@@ -8,12 +8,13 @@ import {
   fetchByIngredient,
   fetchByName,
 } from '../../Utils/API';
-import SearchForm from './SearchForm/SearchForm';
+import SearchBar from '../SearchBar/SearchBar';
 import CategorySection from './CategorySection/CategorySection';
 
 function Header() {
   const navigate = useNavigate();
   const [isSearch, setSearch] = useState(false);
+  const { pathname } = useLocation();
   const [formInputs, setFormInputs] = useState(
     {
       search: '',
@@ -21,7 +22,13 @@ function Header() {
     },
   );
 
-  const { headerTitle, setHeaderTitle, setDrinks, setMeals } = useContext(AppContext);
+  const {
+    headerTitle,
+    setHeaderTitle,
+    setDrinks,
+    setMeals,
+    meals,
+    drinks } = useContext(AppContext);
   const [searchIcon, setSearchIcon] = useState(false);
 
   useEffect(() => {
@@ -38,47 +45,63 @@ function Header() {
     ));
   };
 
+  const letterAlert = () => {
+    if (formInputs.search.length > 1) {
+      window.alert('Your search must have only 1 (one) character');
+    }
+  };
+
+  // const resultVerify = (results: MealType[] | DrinkType[]) => {
+  //   const id = pathname.includes('meals') ? results[0].idMeal : results[0].idDrink;
+  //   console.log(id);
+  //   switch (results.length) {
+  //     case 0:
+  //       window.alert("Sorry, we haven't found any recipes for these filters");
+  //       break;
+  //     case 1:
+  //       navigate(`/${pathname}/${id}`);
+  //       break;
+  //     default:
+  //       return results;
+  //   }
+  // };
+
   const handleSearch = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const { search, radioSearch } = formInputs;
-    const param = headerTitle === 'Meals' ? 'themealdb' : 'thecocktaildb';
-    const setRecipe = headerTitle === 'Meals' ? setMeals : setDrinks;
+    const param = pathname.includes('meals') ? 'themealdb' : 'thecocktaildb';
+    const setRecipe = pathname.includes('meals') ? setMeals : setDrinks;
+    const recipeType = pathname.includes('meals') ? 'idMeal' : 'idDrink';
+    let recipes = [];
+    let response;
 
     switch (radioSearch) {
       case 'name':
-        try {
-          const response = await fetchByName(param, search);
-          const itens = headerTitle === 'Meals' ? response.meals : response.drinks;
-          setRecipe(itens);
-        } catch (error) {
-          console.log(error);
-        }
+        response = await fetchByName(param, search);
+        recipes = pathname.includes('meals') ? response.meals : response.drinks;
         break;
       case 'ingredient':
-        try {
-          const response = await fetchByIngredient(param, search);
-          const itens = headerTitle === 'Meals' ? response.meals : response.drinks;
-          setRecipe(itens);
-        } catch (error) {
-          console.log(error);
-        }
-        break;
-      case 'firstLetter':
-        try {
-          const response = await fetchByFirstLetter(param, search);
-          const itens = headerTitle === 'Meals' ? response.meals : response.drinks;
-          setRecipe(itens);
-        } catch (error) {
-          console.log(error);
-        }
+        response = await fetchByIngredient(param, search);
+        recipes = pathname.includes('meals') ? response.meals : response.drinks;
         break;
       default:
-        return setRecipe([]);
+        letterAlert();
+        response = await fetchByFirstLetter(param, search);
+        recipes = pathname.includes('meals') ? response.meals : response.drinks;
+    }
+    setRecipe(recipes);
+    if (!recipes) {
+      window.alert("Sorry, we haven't found any recipes for these filters");
+      return;
+    }
+    if (recipes.length === 1) {
+      const url = headerTitle === 'Meals' ? 'meals' : 'drinks';
+      navigate(`/${url}/${recipes[0][recipeType]}`);
     }
   };
 
   const handleCategory = async (value: string) => {
-    if (headerTitle === 'Meals') {
+    if (pathname.includes('meals')) {
       try {
         const response = await fetchByCategory('themealdb', value);
         setMeals(response.meals);
@@ -87,7 +110,7 @@ function Header() {
       }
     }
 
-    if (headerTitle === 'Drinks') {
+    if (pathname === 'Drinks') {
       try {
         const response = await fetchByCategory('thecocktail', value);
         setMeals(response.drinks);
@@ -115,7 +138,7 @@ function Header() {
             alt="Profile icon"
           />
         </button>
-        <p data-testid="page-title" className={ styles.headerTitle }>{headerTitle}</p>
+        <p data-testid="page-title" className={ styles.pathname }>{headerTitle}</p>
         {searchIcon && (
           <button
             onClick={ () => setSearch(!isSearch) }
@@ -131,7 +154,7 @@ function Header() {
         )}
       </div>
       {isSearch ? (
-        <SearchForm
+        <SearchBar
           formInputs={ formInputs }
           handleChange={ handleChange }
           handleSearch={ handleSearch }

@@ -16,9 +16,9 @@ function App() {
       <Route path="/" element={ <Login /> } />
       <Route path="/meals" element={ <Layout /> }>
         <Route index element={ <Meals /> } />
-        <Route path="/meals:id" element={ <MealDetail /> } />
+        <Route path="/meals/:id" element={ <MealDetail /> } />
       </Route>
-      <Route path="drinks" element={ <Layout /> }>
+      <Route path="/drinks" element={ <Layout /> }>
         <Route index element={ <Drinks /> } />
         <Route path="/drinks/:id" element={ <DrinkDetails /> } />
       </Route>

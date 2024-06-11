@@ -1,8 +1,9 @@
 import { useContext, useEffect } from 'react';
 import AppContext from '../../Context/AppContext';
+import { fetchByName } from '../../Utils/API';
 
 function Meals() {
-  const { setHeaderTitle } = useContext(AppContext);
+  const { setHeaderTitle, setMeals, meals } = useContext(AppContext);
 
   useEffect(() => {
     setHeaderTitle('Meals');
