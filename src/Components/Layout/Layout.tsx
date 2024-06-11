@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import styles from './Layout.module.css';
 import Header from '../Header/Header';
+import Footer from '../Footer/Footer';
 
 function Layout() {
   const url = window.location.pathname;
@@ -17,7 +18,7 @@ function Layout() {
       <main className={ styles.main }>
         <Outlet />
       </main>
-      <footer>Footer aqui</footer>
+      <Footer />
     </div>
   );
 }
