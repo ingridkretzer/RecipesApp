@@ -1,11 +1,11 @@
 .footer {
-  position: fixed;
-  bottom: 0px;
   align-items: space-between;
   background-color: #41197f;
+  bottom: 0;
   display: flex;
-  justify-content: space-between;
   height: 50px;
+  justify-content: space-between;
+  position: fixed;
 }
 
 .mealsBtn, .drinksBtn {
