@@ -1,6 +1,7 @@
-import styles from './SearchForm.module.css';
+import { DrinkType, MealType } from '../../types';
+import styles from './SearchBar.module.css';
 
-type SearchFormProps = {
+type SearchBarProps = {
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   formInputs: {
     search: string,
@@ -9,18 +10,19 @@ type SearchFormProps = {
   handleSearch: (e: React.FormEvent<HTMLButtonElement>) => Promise<void>
 };
 
-function SearchForm(
+function SearchBar(
   {
     handleChange,
     formInputs,
     handleSearch,
-  } : SearchFormProps,
+  } : SearchBarProps,
 ) {
   return (
     <form className={ styles.searchForm }>
       <div>
         <label htmlFor="search-input">
           <input
+            data-testid="search-input"
             className={ styles.searchInput }
             type="text"
             id="search-input"
@@ -37,9 +39,10 @@ function SearchForm(
             className={ styles.radioLabel }
             htmlFor="name"
           >
-            Nome
+            Name
           </label>
           <input
+            data-testid="name-search-radio"
             className={ styles.radioInput }
             type="radio"
             name="radioSearch"
@@ -54,9 +57,10 @@ function SearchForm(
             className={ styles.radioLabel }
             htmlFor="ingredient"
           >
-            Ingrediente
+            Ingredient
           </label>
           <input
+            data-testid="ingredient-search-radio"
             className={ styles.radioInput }
             type="radio"
             id="ingredient"
@@ -70,9 +74,10 @@ function SearchForm(
             className={ styles.radioLabel }
             htmlFor="firstLetter"
           >
-            Primeira letra
+            First letter
           </label>
           <input
+            data-testid="first-letter-search-radio"
             className={ styles.radioInput }
             type="radio"
             name="radioSearch"
@@ -84,6 +89,7 @@ function SearchForm(
       </div>
       <div>
         <button
+          data-testid="exec-search-btn"
           onClick={ handleSearch }
           className={ styles.searchBtn }
         >
@@ -94,4 +100,4 @@ function SearchForm(
   );
 }
 
-export default SearchForm;
+export default SearchBar;

@@ -12,13 +12,19 @@ function Layout() {
     '/done-recipes',
     '/favorite-recipes'];
 
+  const footerOn = [
+    '/meals',
+    '/drinks',
+    '/profile'];
+
   return (
+    // footer e header renderizados condicionalmente
     <div className={ styles.layout }>
       {headerOn.some((param) => param === url) && <Header />}
       <main className={ styles.main }>
         <Outlet />
       </main>
-      <Footer />
+      {footerOn.some((param) => param === url) && <Footer />}
     </div>
   );
 }
