@@ -1,0 +1,140 @@
+.header {
+  background-color: rgb(58, 204, 0);
+  display: grid;
+  grid-template-rows: 20% 80%;
+  height: 100%;
+  width: 100%;
+}
+
+.headerTop {
+  align-items: center;
+  background-color: orangered;
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+
+}
+
+.topBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.headerIcons {
+  font-size: 30px;
+}
+
+.headerSection {
+  font-size: 30px;
+}
+
+.searchForm {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+  width: 100%;
+}
+
+.radiosDiv {
+  display: flex;
+  gap: 20px;
+}
+
+.radioLabel {
+  font-weight: 700;
+}
+
+.radioInput {
+  margin-left: 10px;
+}
+
+.searchInput {
+  border: 1px solid black;
+  border-radius: 5px;
+  height: 25px;
+  padding-left: 5px;
+}
+
+.searchBtn {
+  background-color: brown;
+  border: 1px solid black;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  font-weight: 700;
+  height: 25px;
+  width: 100px;
+
+  &:active {
+    background-color: rgba(165, 42, 42, 0.747);
+  }
+}
+
+.categorySection {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  width: 100%;
+}
+
+.categoryDivs {
+  display: flex;
+  justify-content: space-around;
+  width: 50%;
+}
+
+.category {
+  align-items: center;
+  background-color: rgb(0, 38, 255);
+  border: 1px solid orange;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  height: 25px;
+  justify-content: center;
+  width: 200px;
+
+  &:active {
+    background-color: rgba(0, 38, 255, 0.664);
+  }
+}
+
+@media ( max-width : 600px ) {
+
+  .headerIcons {
+    font-size: 20px;
+  }
+
+  .headerSection {
+    font-size: 20px;
+  }
+
+  .searchForm {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .radiosDiv {
+    display: flex;
+    gap: 10px;
+  }
+
+  .categoryDivs {
+    width: 100%;
+  }
+
+  .category {
+    font-size: 15px;
+    width: 100px;
+  }
+}
