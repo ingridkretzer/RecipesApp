@@ -18,6 +18,7 @@ function Layout() {
     '/profile'];
 
   return (
+    // footer e header renderizados condicionalmente
     <div className={ styles.layout }>
       {headerOn.some((param) => param === url) && <Header />}
       <main className={ styles.main }>
