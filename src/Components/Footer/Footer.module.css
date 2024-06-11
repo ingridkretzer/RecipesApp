@@ -1,0 +1,11 @@
+.footer {
+  align-items: space-between;
+  background-color: #41197f;
+  display: flex;
+  justify-content: center;
+}
+
+.meals-bottom-btn, .drinks-bottom-btn {
+  color: #fcc436;
+  max-height: 29px;
+}
