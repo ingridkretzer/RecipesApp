@@ -29,6 +29,8 @@ function Header() {
     setDrinks,
     setMeals } = useContext(AppContext);
   const [searchIcon, setSearchIcon] = useState(false);
+  const idType = pathname.includes('meals') ? 'idMeal' : 'idDrink';
+  const setRecipe = pathname.includes('meals') ? setMeals : setDrinks;
 
   useEffect(() => {
     const isTrue = headerTitle === 'Meals' || headerTitle === 'Drinks';
@@ -54,8 +56,6 @@ function Header() {
     e.preventDefault();
     const { search, radioSearch } = formInputs;
     const param = pathname.includes('meals') ? 'themealdb' : 'thecocktaildb';
-    const setRecipe = pathname.includes('meals') ? setMeals : setDrinks;
-    const idType = pathname.includes('meals') ? 'idMeal' : 'idDrink';
     let recipes = [];
     let response;
 
