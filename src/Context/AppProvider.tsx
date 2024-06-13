@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AppContext from './AppContext';
 import { DrinkType, MealType, Recipes } from '../types';
 

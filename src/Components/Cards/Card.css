@@ -1,0 +1,19 @@
+.card {
+  border: 1px solid #ccc;
+  margin: 16px;
+  max-width: 300px;
+  padding: 16px;
+  text-align: center;
+}
+
+.card img {
+  border-radius: 8px;
+  height: 200px;
+  max-width: 100%;
+  object-fit: cover;
+}
+
+.card h3 {
+  font-size: 1.5rem;
+  margin-top: 16px;
+}
