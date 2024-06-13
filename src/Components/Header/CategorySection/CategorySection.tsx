@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import styles from './CategorySection.module.css';
 import AppContext from '../../../Context/AppContext';
@@ -6,9 +6,10 @@ import { fetchByName } from '../../../Utils/API';
 
 type CategorySectionProps = {
   handleCategory: (value: string) => Promise<void>
+  categoryOn: string
 };
 
-function CategorySection({ handleCategory }: CategorySectionProps) {
+function CategorySection({ handleCategory, categoryOn }: CategorySectionProps) {
   const { headerTitle, setMeals, setDrinks } = useContext(AppContext);
   const { pathname } = useLocation();
   const mealCategories = ['Beef', 'Goat', 'Chicken', 'Breakfast', 'Dessert'];
@@ -43,7 +44,8 @@ function CategorySection({ handleCategory }: CategorySectionProps) {
               <button
                 key={ category }
                 data-testid={ `${category}-category-filter` }
-                onClick={ () => handleCategory(category) }
+                onClick={ () => (categoryOn === category
+                  ? allBtn() : handleCategory(category)) }
                 className={ styles.categoryBtn }
               >
                 {category}
@@ -63,7 +65,8 @@ function CategorySection({ handleCategory }: CategorySectionProps) {
               <button
                 key={ category }
                 data-testid={ `${category}-category-filter` }
-                onClick={ () => handleCategory(category) }
+                onClick={ () => (categoryOn === category
+                  ? allBtn() : handleCategory(category)) }
                 className={ styles.categoryBtn }
               >
                 {category}

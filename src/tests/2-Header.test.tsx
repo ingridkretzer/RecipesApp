@@ -1,4 +1,4 @@
-import { screen, waitFor } from '@testing-library/dom';
+import { findByText, screen, waitFor } from '@testing-library/dom';
 import { vi } from 'vitest';
 import App from '../App';
 import { renderWithRouter } from '../Utils/renderWithRouter';
@@ -190,7 +190,47 @@ describe('Verifica as funcionalidades do header', () => {
 
     await user.click(shakeCat);
     const bananaMilk = await screen.findByText(/banana milk shake/i);
-
     expect(bananaMilk).toBeVisible();
+
+    const allBtn2 = await screen.findByRole('button', { name: 'All' });
+
+    await user.click(allBtn2);
+
+    const ace = await screen.findByText(/ace/i);
+    expect(ace).toBeVisible();
+  });
+  test('Verifica a pesquisa por nome de drinks', async () => {
+    const { user } = renderWithRouter(<AppProvider><App /></AppProvider>, { route: '/drinks' });
+    const searchIconD = screen.getByTestId(searchiconId);
+
+    await user.click(searchIconD);
+    const searchInputD = screen.getByTestId(searchInputId);
+    const nameRadioD = screen.getByTestId(nameSearch);
+    const searchBtnD = screen.getByTestId(searchBtnId);
+
+    await user.type(searchInputD, 'ace');
+    await user.click(nameRadioD);
+    await user.click(searchBtnD);
+
+    const ace2 = await screen.findByText(/ace/i);
+    expect(ace2).toBeVisible();
+  });
+  test('Verifica a pesquisa por ingrediente do drink', async () => {
+    const { user } = renderWithRouter(<AppProvider><App /></AppProvider>, { route: '/drinks' });
+    const searchIconD2 = screen.getByTestId(searchiconId);
+
+    await user.click(searchIconD2);
+    const searchInputD2 = screen.getByTestId(searchInputId);
+    const ingredientRadioD = screen.getByTestId('ingredient-search-radio');
+    const searchBtnD2 = screen.getByTestId(searchBtnId);
+
+    await user.type(searchInputD2, 'cachaça');
+    await user.click(ingredientRadioD);
+    await user.click(searchBtnD2);
+
+    const darkCaip = await screen.findByText(/dark caipirinha/i);
+    const ipanema = await screen.findByText(/girl from ipanema/i);
+    expect(darkCaip).toBeVisible();
+    expect(ipanema).toBeVisible();
   });
 });

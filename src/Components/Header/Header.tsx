@@ -13,6 +13,7 @@ import CategorySection from './CategorySection/CategorySection';
 
 function Header() {
   const navigate = useNavigate();
+  const [categoryOn, setCategoryOn] = useState('');
   const [isSearch, setSearch] = useState(false);
   const { pathname } = useLocation();
   const [formInputs, setFormInputs] = useState(
@@ -70,7 +71,8 @@ function Header() {
       default:
         letterAlert();
         response = await fetchByFirstLetter(param, search);
-        recipes = pathname.includes('meals') ? response.meals : response.drinks;
+        recipes = pathname.includes('meals')
+          ? response && response.meals : response && response.drinks;
     }
     setRecipe(recipes);
     if (!recipes) {
@@ -84,6 +86,7 @@ function Header() {
   };
 
   const handleCategory = async (value: string) => {
+    setCategoryOn(value);
     if (pathname.includes('meals')) {
       const response = await fetchByCategory('themealdb', value);
       setMeals(response.meals);
@@ -140,6 +143,7 @@ function Header() {
             />
           ) : (
             <CategorySection
+              categoryOn={ categoryOn }
               handleCategory={ handleCategory }
             />
           )}

@@ -12,8 +12,15 @@ export const fetchByIngredient = async (param: string, ingredient = '') => {
 
 export const fetchByFirstLetter = async (param: string, letter: string) => {
   const response = await fetch(`https://www.${param}.com/api/json/v1/1/search.php?f=${letter}`);
-  const data = await response.json();
-  return data;
+  if (!response.ok) {
+    throw new Error('Erro');
+  }
+  try {
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const fetchByCategory = async (param: string, category: string) => {
