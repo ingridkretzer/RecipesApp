@@ -1,6 +1,6 @@
 import { useContext, useEffect } from 'react';
 import AppContext from '../../Context/AppContext';
-import DrinksReceps from '../../Components/Recepies/DrinksReceps';
+import DrinksReceps from '../../Components/Recepies/DrinksRecipes';
 import { fetchByName } from '../../Utils/API';
 
 function Drinks() {

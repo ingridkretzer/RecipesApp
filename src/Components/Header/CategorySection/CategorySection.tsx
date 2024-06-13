@@ -1,105 +1,78 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import styles from './CategorySection.module.css';
 import AppContext from '../../../Context/AppContext';
+import { fetchByName } from '../../../Utils/API';
 
 type CategorySectionProps = {
   handleCategory: (value: string) => Promise<void>
-
+  categoryOn: string
 };
 
-function CategorySection({ handleCategory }: CategorySectionProps) {
-  const { headerTitle } = useContext(AppContext);
+function CategorySection({ handleCategory, categoryOn }: CategorySectionProps) {
+  const { headerTitle, setMeals, setDrinks } = useContext(AppContext);
+  const { pathname } = useLocation();
+  const mealCategories = ['Beef', 'Goat', 'Chicken', 'Breakfast', 'Dessert'];
+  const drinkCategories = [
+    'Ordinary Drink',
+    'Cocktail',
+    'Shake',
+    'Other/Unknown',
+    'Cocoa'];
+
+  const allBtn = async () => {
+    const param = pathname.includes('/meals') ? 'themealdb' : 'thecocktaildb';
+    const setRecipes = pathname.includes('/meals') ? setMeals : setDrinks;
+    const response = await fetchByName(param, '');
+    const recipes = pathname.includes('/meals') ? response.meals : response.drinks;
+    setRecipes(recipes);
+  };
   return (
-    <section>
+
+    <section className={ styles.categoriesSection }>
       {
-        headerTitle === 'Meals' ? (
-          <section className={ styles.categoryheaderTitle }>
-            <div className={ styles.categoryDivs }>
+        pathname.includes('/meals') ? (
+          <div className={ styles.categoryDivs }>
+            <button
+              data-testid="All-category-filter"
+              onClick={ allBtn }
+              className={ styles.categoryBtn }
+            >
+              All
+            </button>
+            {mealCategories.map((category) => (
               <button
-                className={ styles.category }
-                onClick={ () => handleCategory('') }
+                key={ category }
+                data-testid={ `${category}-category-filter` }
+                onClick={ () => (categoryOn === category
+                  ? allBtn() : handleCategory(category)) }
+                className={ styles.categoryBtn }
               >
-                All
+                {category}
               </button>
-              <button
-                className={ styles.category }
-                onClick={ () => handleCategory('beef') }
-              >
-                Beef
-              </button>
-              <button
-                className={ styles.category }
-                onClick={ () => handleCategory('goat') }
-              >
-                Goat
-              </button>
-            </div>
-            <div className={ styles.categoryDivs }>
-              <button
-                className={ styles.category }
-                onClick={ () => handleCategory('chicken') }
-              >
-                Chicken
-              </button>
-              <button
-                className={ styles.category }
-                onClick={ () => handleCategory('breakfast') }
-              >
-                Breakfast
-              </button>
-              <button
-                className={ styles.category }
-                onClick={ () => handleCategory('dessert') }
-              >
-                Dessert
-              </button>
-            </div>
-          </section>
+            ))}
+          </div>
         ) : (
-          <section className={ styles.categoryheaderTitle }>
-            <div className={ styles.categoryDivs }>
+          <div className={ styles.categoryDivs }>
+            <button
+              data-testid="All-category-filter"
+              onClick={ allBtn }
+              className={ styles.categoryBtn }
+            >
+              All
+            </button>
+            {drinkCategories.map((category) => (
               <button
-                className={ styles.category }
-                onClick={ () => handleCategory('') }
+                key={ category }
+                data-testid={ `${category}-category-filter` }
+                onClick={ () => (categoryOn === category
+                  ? allBtn() : handleCategory(category)) }
+                className={ styles.categoryBtn }
               >
-                All
+                {category}
               </button>
-              <button
-                className={ styles.category }
-                onClick={ () => handleCategory('Ordinary_Drink') }
-              >
-                Ordinary Drink
-              </button>
-              <button
-                className={ styles.category }
-                onClick={ () => handleCategory('Cocktail') }
-              >
-                Cocktail
-              </button>
-            </div>
-            <div className={ styles.categoryDivs }>
-              <button
-                className={ styles.category }
-                onClick={ () => handleCategory('Shake') }
-              >
-                Shake
-              </button>
-              <button
-                className={ styles.category }
-                onClick={ () => handleCategory('Other \\/ Unknown') }
-              >
-                Other/
-                {' '}
-                Unknown
-              </button>
-              <button
-                className={ styles.category }
-                onClick={ () => handleCategory('cocoa') }
-              >
-                Cocoa
-              </button>
-            </div>
-          </section>
+            ))}
+          </div>
         )
       }
     </section>

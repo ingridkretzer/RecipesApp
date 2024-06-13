@@ -13,6 +13,7 @@ import CategorySection from './CategorySection/CategorySection';
 
 function Header() {
   const navigate = useNavigate();
+  const [categoryOn, setCategoryOn] = useState('');
   const [isSearch, setSearch] = useState(false);
   const { pathname } = useLocation();
   const [formInputs, setFormInputs] = useState(
@@ -26,10 +27,10 @@ function Header() {
     headerTitle,
     setHeaderTitle,
     setDrinks,
-    setMeals,
-    meals,
-    drinks } = useContext(AppContext);
+    setMeals } = useContext(AppContext);
   const [searchIcon, setSearchIcon] = useState(false);
+  const idType = pathname.includes('meals') ? 'idMeal' : 'idDrink';
+  const setRecipe = pathname.includes('meals') ? setMeals : setDrinks;
 
   useEffect(() => {
     const isTrue = headerTitle === 'Meals' || headerTitle === 'Drinks';
@@ -51,27 +52,10 @@ function Header() {
     }
   };
 
-  // const resultVerify = (results: MealType[] | DrinkType[]) => {
-  //   const id = pathname.includes('meals') ? results[0].idMeal : results[0].idDrink;
-  //   console.log(id);
-  //   switch (results.length) {
-  //     case 0:
-  //       window.alert("Sorry, we haven't found any recipes for these filters");
-  //       break;
-  //     case 1:
-  //       navigate(`/${pathname}/${id}`);
-  //       break;
-  //     default:
-  //       return results;
-  //   }
-  // };
-
   const handleSearch = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const { search, radioSearch } = formInputs;
     const param = pathname.includes('meals') ? 'themealdb' : 'thecocktaildb';
-    const setRecipe = pathname.includes('meals') ? setMeals : setDrinks;
-    const recipeType = pathname.includes('meals') ? 'idMeal' : 'idDrink';
     let recipes = [];
     let response;
 
@@ -87,7 +71,8 @@ function Header() {
       default:
         letterAlert();
         response = await fetchByFirstLetter(param, search);
-        recipes = pathname.includes('meals') ? response.meals : response.drinks;
+        recipes = pathname.includes('meals')
+          ? response && response.meals : response && response.drinks;
     }
     setRecipe(recipes);
     if (!recipes) {
@@ -96,27 +81,20 @@ function Header() {
     }
     if (recipes.length === 1) {
       const url = headerTitle === 'Meals' ? 'meals' : 'drinks';
-      navigate(`/${url}/${recipes[0][recipeType]}`);
+      navigate(`/${url}/${recipes[0][idType]}`);
     }
   };
 
   const handleCategory = async (value: string) => {
+    setCategoryOn(value);
     if (pathname.includes('meals')) {
-      try {
-        const response = await fetchByCategory('themealdb', value);
-        setMeals(response.meals);
-      } catch (error) {
-        console.log(error);
-      }
+      const response = await fetchByCategory('themealdb', value);
+      setMeals(response.meals);
     }
 
-    if (pathname === 'Drinks') {
-      try {
-        const response = await fetchByCategory('thecocktail', value);
-        setMeals(response.drinks);
-      } catch (error) {
-        console.log(error);
-      }
+    if (pathname.includes('drinks')) {
+      const response = await fetchByCategory('thecocktaildb', value);
+      setDrinks(response.drinks);
     }
   };
 
@@ -138,28 +116,39 @@ function Header() {
             alt="Profile icon"
           />
         </button>
-        <p data-testid="page-title" className={ styles.pathname }>{headerTitle}</p>
-        {searchIcon && (
-          <button
-            onClick={ () => setSearch(!isSearch) }
-            className={ styles.topBtn }
-          >
-            <img
-              data-testid="search-top-btn"
-              src="src/images/searchIcon.svg"
-              alt="search icon"
-              className={ styles.headerIcons }
-            />
-          </button>
+        <p data-testid="page-title" className={ styles.headerTitle }>{headerTitle}</p>
+        {(pathname === '/meals' || pathname === '/drinks') && (
+          searchIcon && (
+            <button
+              onClick={ () => setSearch(!isSearch) }
+              className={ styles.topBtn }
+            >
+              <img
+                data-testid="search-top-btn"
+                src="src/images/searchIcon.svg"
+                alt="search icon"
+                className={ styles.headerIcons }
+              />
+            </button>
+          )
         )}
       </div>
-      {isSearch ? (
-        <SearchBar
-          formInputs={ formInputs }
-          handleChange={ handleChange }
-          handleSearch={ handleSearch }
-        />
-      ) : <CategorySection handleCategory={ handleCategory } />}
+      {(pathname === '/meals' || pathname === '/drinks') && (
+        <section className={ styles.headerBotton }>
+          {isSearch ? (
+            <SearchBar
+              formInputs={ formInputs }
+              handleChange={ handleChange }
+              handleSearch={ handleSearch }
+            />
+          ) : (
+            <CategorySection
+              categoryOn={ categoryOn }
+              handleCategory={ handleCategory }
+            />
+          )}
+        </section>
+      )}
     </header>
   );
 }
