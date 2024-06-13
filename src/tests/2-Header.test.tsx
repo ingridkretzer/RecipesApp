@@ -1,7 +1,9 @@
 import { screen } from '@testing-library/dom';
+import { vi } from 'vitest';
 import App from '../App';
 import { renderWithRouter } from '../Utils/renderWithRouter';
 import AppProvider from '../Context/AppProvider';
+import { fetchByName } from '../Utils/API';
 
 describe('Verifica as funcionalidades do header', () => {
   const searchiconId = 'search-top-btn';
@@ -24,11 +26,18 @@ describe('Verifica as funcionalidades do header', () => {
 
     await user.click(searchIcon);
     const searchInput = screen.getByTestId(searchInputId);
-    const nameRadio = screen.getAllByTestId('name-search-radio');
+    const nameRadio = screen.getByTestId('name-search-radio');
     const searchBtn = screen.getByTestId('exec-search-btn');
 
     await user.type(searchInput, 'lasagna');
+    await user.click(nameRadio);
     await user.click(searchBtn);
+
+    const veganLasagna = await screen.findByText(/vegan lasagna/i);
+    const lasagnaSand = await screen.findByText(/lasagna sandwiches/i);
+
+    expect(veganLasagna).toBeVisible();
+    expect(lasagnaSand).toBeVisible();
   });
   test('Verifica a pesquisa por ingrediente da receita', async () => {
     const { user } = renderWithRouter(<AppProvider><App /></AppProvider>, { route: '/meals' });
@@ -36,11 +45,15 @@ describe('Verifica as funcionalidades do header', () => {
 
     await user.click(searchIcon);
     const searchInput2 = screen.getByTestId(searchInputId);
-    const ingredientRadio = screen.getAllByTestId('ingredient-search-radio');
+    const ingredientRadio = screen.getByTestId('ingredient-search-radio');
     const searchBtn2 = screen.getByTestId(searchBtnId);
 
     await user.type(searchInput2, 'beef');
+    await user.click(ingredientRadio);
     await user.click(searchBtn2);
+
+    const beef = await screen.findAllByText(/beef/i);
+    expect(beef).toHaveLength(12);
   });
   test('Verifica a pesquisa por primeira letra da receita', async () => {
     const { user } = renderWithRouter(<AppProvider><App /></AppProvider>, { route: '/meals' });

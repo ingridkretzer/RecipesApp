@@ -26,9 +26,7 @@ function Header() {
     headerTitle,
     setHeaderTitle,
     setDrinks,
-    setMeals,
-    meals,
-    drinks } = useContext(AppContext);
+    setMeals } = useContext(AppContext);
   const [searchIcon, setSearchIcon] = useState(false);
 
   useEffect(() => {
@@ -51,27 +49,12 @@ function Header() {
     }
   };
 
-  // const resultVerify = (results: MealType[] | DrinkType[]) => {
-  //   const id = pathname.includes('meals') ? results[0].idMeal : results[0].idDrink;
-  //   console.log(id);
-  //   switch (results.length) {
-  //     case 0:
-  //       window.alert("Sorry, we haven't found any recipes for these filters");
-  //       break;
-  //     case 1:
-  //       navigate(`/${pathname}/${id}`);
-  //       break;
-  //     default:
-  //       return results;
-  //   }
-  // };
-
   const handleSearch = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const { search, radioSearch } = formInputs;
     const param = pathname.includes('meals') ? 'themealdb' : 'thecocktaildb';
     const setRecipe = pathname.includes('meals') ? setMeals : setDrinks;
-    const recipeType = pathname.includes('meals') ? 'idMeal' : 'idDrink';
+    const idType = pathname.includes('meals') ? 'idMeal' : 'idDrink';
     let recipes = [];
     let response;
 
@@ -96,7 +79,7 @@ function Header() {
     }
     if (recipes.length === 1) {
       const url = headerTitle === 'Meals' ? 'meals' : 'drinks';
-      navigate(`/${url}/${recipes[0][recipeType]}`);
+      navigate(`/${url}/${recipes[0][idType]}`);
     }
   };
 
@@ -112,7 +95,7 @@ function Header() {
 
     if (pathname === 'Drinks') {
       try {
-        const response = await fetchByCategory('thecocktail', value);
+        const response = await fetchByCategory('thecocktaildb', value);
         setMeals(response.drinks);
       } catch (error) {
         console.log(error);
@@ -138,7 +121,7 @@ function Header() {
             alt="Profile icon"
           />
         </button>
-        <p data-testid="page-title" className={ styles.pathname }>{headerTitle}</p>
+        <p data-testid="page-title" className={ styles.headerTitle }>{headerTitle}</p>
         {searchIcon && (
           <button
             onClick={ () => setSearch(!isSearch) }
@@ -153,13 +136,19 @@ function Header() {
           </button>
         )}
       </div>
-      {isSearch ? (
-        <SearchBar
-          formInputs={ formInputs }
-          handleChange={ handleChange }
-          handleSearch={ handleSearch }
-        />
-      ) : <CategorySection handleCategory={ handleCategory } />}
+      <section className={ styles.headerBotton }>
+        {isSearch ? (
+          <SearchBar
+            formInputs={ formInputs }
+            handleChange={ handleChange }
+            handleSearch={ handleSearch }
+          />
+        ) : (
+          <CategorySection
+            handleCategory={ handleCategory }
+          />
+        )}
+      </section>
     </header>
   );
 }

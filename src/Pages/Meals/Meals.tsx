@@ -1,7 +1,8 @@
 import { useContext, useEffect } from 'react';
 import AppContext from '../../Context/AppContext';
 import { fetchByName } from '../../Utils/API';
-import MealsReceps from '../../Components/Recepies/MealsReceps';
+import MealsReceps from '../../Components/Recepies/MealsRecipes';
+import styles from './Meals.module.css';
 
 function Meals() {
   const { setHeaderTitle, setMeals } = useContext(AppContext);
@@ -16,7 +17,7 @@ function Meals() {
   }, []);
 
   return (
-    <section>
+    <section className={ styles.mealsPage }>
       <h1>Meals</h1>
       <MealsReceps />
     </section>

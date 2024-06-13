@@ -1,7 +1,7 @@
 .header {
   background-color: rgb(58, 204, 0);
   display: grid;
-  grid-template-rows: 20% 80%;
+  grid-template-rows: 25% 75%;
   height: 100%;
   width: 100%;
 }
@@ -12,7 +12,6 @@
   display: flex;
   justify-content: space-evenly;
   width: 100%;
-
 }
 
 .topBtn {
@@ -25,8 +24,12 @@
   font-size: 30px;
 }
 
-.headerSection {
+.headerTitle {
   font-size: 30px;
+}
+
+.headerBotton {
+  height: 100%;
 }
 
 .searchForm {

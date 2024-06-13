@@ -1,3 +1,19 @@
-* {
-  margin: 0;
+.categoriesSection {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+}
+
+.categoryDivs {
+  display: flex;
+  gap: 25px;
+  justify-content: center;
+  width: 80%;
+}
+
+.categoryBtn {
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 2px 5px;
 }
