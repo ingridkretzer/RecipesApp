@@ -85,21 +85,13 @@ function Header() {
 
   const handleCategory = async (value: string) => {
     if (pathname.includes('meals')) {
-      try {
-        const response = await fetchByCategory('themealdb', value);
-        setMeals(response.meals);
-      } catch (error) {
-        console.log(error);
-      }
+      const response = await fetchByCategory('themealdb', value);
+      setMeals(response.meals);
     }
 
-    if (pathname === 'Drinks') {
-      try {
-        const response = await fetchByCategory('thecocktaildb', value);
-        setMeals(response.drinks);
-      } catch (error) {
-        console.log(error);
-      }
+    if (pathname.includes('drinks')) {
+      const response = await fetchByCategory('thecocktaildb', value);
+      setDrinks(response.drinks);
     }
   };
 
@@ -122,33 +114,37 @@ function Header() {
           />
         </button>
         <p data-testid="page-title" className={ styles.headerTitle }>{headerTitle}</p>
-        {searchIcon && (
-          <button
-            onClick={ () => setSearch(!isSearch) }
-            className={ styles.topBtn }
-          >
-            <img
-              data-testid="search-top-btn"
-              src="src/images/searchIcon.svg"
-              alt="search icon"
-              className={ styles.headerIcons }
-            />
-          </button>
+        {(pathname === '/meals' || pathname === '/drinks') && (
+          searchIcon && (
+            <button
+              onClick={ () => setSearch(!isSearch) }
+              className={ styles.topBtn }
+            >
+              <img
+                data-testid="search-top-btn"
+                src="src/images/searchIcon.svg"
+                alt="search icon"
+                className={ styles.headerIcons }
+              />
+            </button>
+          )
         )}
       </div>
-      <section className={ styles.headerBotton }>
-        {isSearch ? (
-          <SearchBar
-            formInputs={ formInputs }
-            handleChange={ handleChange }
-            handleSearch={ handleSearch }
-          />
-        ) : (
-          <CategorySection
-            handleCategory={ handleCategory }
-          />
-        )}
-      </section>
+      {(pathname === '/meals' || pathname === '/drinks') && (
+        <section className={ styles.headerBotton }>
+          {isSearch ? (
+            <SearchBar
+              formInputs={ formInputs }
+              handleChange={ handleChange }
+              handleSearch={ handleSearch }
+            />
+          ) : (
+            <CategorySection
+              handleCategory={ handleCategory }
+            />
+          )}
+        </section>
+      )}
     </header>
   );
 }

@@ -8,7 +8,7 @@ function DrinksReceps() {
 
   return (
     <div className={ styles.recipesList }>
-      {drinks.map((item, index) => index < 12 && (
+      {drinks && drinks.map((item, index) => index < 12 && (
         <RecipeCard key={ item.idDrink } item={ item } index={ index } />
       ))}
     </div>
