@@ -10,7 +10,7 @@ function Favorites() {
 
   return (
     <section>
-      <h1>Favorites</h1>
+      <h1>Favorite Recipes</h1>
     </section>
   );
 }

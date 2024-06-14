@@ -10,7 +10,7 @@ function DoneRecipes() {
 
   return (
     <section>
-      <h1>DoneRecipes</h1>
+      <h1>Done Recipes</h1>
     </section>
   );
 }
