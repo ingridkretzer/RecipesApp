@@ -16,14 +16,20 @@ function Profile() {
     navigate('/');
   };
 
+  const getEmailFromLocalStorage = () => {
+    const user = localStorage.getItem('user');
+    return user ? JSON.parse(user).email : '';
+  };
+
   return (
     <section>
       <img src={ profileIcon } alt="Icone do Perfil" />
       <h1>
         Profile
       </h1>
-      <h2 data-testid="profile-email">email@mail.com</h2>
-
+      <h2 data-testid="profile-email">
+        {getEmailFromLocalStorage()}
+      </h2>
       <button
         data-testid="profile-done-btn"
         onClick={ () => navigate('/done-recipes') }

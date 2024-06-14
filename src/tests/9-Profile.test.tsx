@@ -29,5 +29,16 @@ describe('Verifica as funcionalidades do Perfil', () => {
     await user.click(profileBtn);
 
     expect(screen.getByRole('heading', { name: /Login/i })).toBeInTheDocument();
+    expect(localStorage.getItem('user')).toBeNull();
+  });
+
+  it('Verifica se o email do usuário é exibido corretamente', () => {
+    const email = 'test@example.com';
+    localStorage.setItem('user', JSON.stringify({ email }));
+    renderWithRouter(<AppProvider><App /></AppProvider>, { route: '/profile' });
+
+    const emailDisplay = screen.getByTestId('profile-email');
+    expect(emailDisplay).toBeInTheDocument();
+    expect(emailDisplay).toHaveTextContent(email);
   });
 });
