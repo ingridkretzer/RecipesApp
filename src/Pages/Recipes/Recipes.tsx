@@ -25,7 +25,7 @@ function Recipes() {
       set(data);
     };
     getRecipes();
-  }, [pathname]);
+  }, [pathname, setDrinks, setHeaderTitle, setMeals]);
 
   return (
     <section>
