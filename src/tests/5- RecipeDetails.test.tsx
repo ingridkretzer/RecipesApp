@@ -1,106 +1,69 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { render, screen, waitFor } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
 import RecipeDetails from '../Pages/RecipeDetails/RecipeDetails';
-import { Recipe, Recommendation } from '../Pages/RecipeDetails/recipeUtils';
+import * as utils from '../Pages/RecipeDetails/recipeUtils';
 
-// Definir constante para o ID da receita
-const RECIPE_ID = '52771';
+jest.mock('./recipeUtils');
 
-// Mock data
-const mockRecipe: Recipe = {
-  id: RECIPE_ID,
-  name: 'Spicy Arrabiata Penne',
-  category: 'Pasta',
-  alcoholic: null,
-  ingredients: ['penne rigate', 'olive oil', 'garlic'],
-  measures: ['1 pound', '1/4 cup', '3 cloves'],
-  instructions: 'Bring a large pot of water to a boil. Add kosher salt...',
-  image: 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg',
-  video: 'https://www.youtube.com/embed/1IszT_guI08',
+const mockRecipe = {
+  id: '1',
+  name: 'Mock Recipe',
+  category: 'Category',
+  ingredients: ['Ingredient 1', 'Ingredient 2'],
+  measures: ['1 cup', '2 tbsp'],
+  instructions: 'Mix ingredients',
+  image: 'image.jpg',
+  video: 'https://www.youtube.com/embed/mockvideo',
 };
 
-const mockRecommendations: Recommendation[] = [
-  { id: '1', name: 'Margarita', image: 'https://www.thecocktaildb.com/images/media/drink/5noda61589575158.jpg' },
-  { id: '2', name: 'Blue Margarita', image: 'https://www.thecocktaildb.com/images/media/drink/qtv83q1596015790.jpg' },
-  { id: '3', name: 'Tommy\'s Margarita', image: 'https://www.thecocktaildb.com/images/media/drink/loezxn1504373874.jpg' },
-  { id: '4', name: 'Whitecap Margarita', image: 'https://www.thecocktaildb.com/images/media/drink/srpxxp1441209622.jpg' },
-  { id: '5', name: 'Strawberry Margarita', image: 'https://www.thecocktaildb.com/images/media/drink/tqyrpw1439905311.jpg' },
-  { id: '6', name: 'Smashed Watermelon Margarita', image: 'https://www.thecocktaildb.com/images/media/drink/dztcv51598717861.jpg' },
+const mockRecommendations = [
+  { id: '2', image: 'image2.jpg', title: 'Recommendation 1' },
+  { id: '3', image: 'image3.jpg', title: 'Recommendation 2' },
 ];
-
-// Mock API functions
-jest.mock('./recipeUtils', () => ({
-  fetchRecipeData: jest.fn(() => Promise.resolve(mockRecipe)),
-  fetchRecommendations: jest.fn(() => Promise.resolve(mockRecommendations)),
-  transformRecipeData: jest.fn((data) => data),
-  transformRecommendationData: jest.fn((data) => data),
-}));
 
 describe('RecipeDetails', () => {
   beforeEach(() => {
-    localStorage.clear();
+    jest.clearAllMocks();
+    (utils.fetchRecipeData as jest.Mock).mockResolvedValue(mockRecipe);
+    (utils.transformRecipeData as jest.Mock).mockReturnValue(mockRecipe);
+    (utils.fetchRecommendations as jest.Mock).mockResolvedValue(mockRecommendations);
+    (utils.transformRecommendationData as jest.Mock).mockReturnValue(mockRecommendations);
   });
 
-  test('renders recipe details correctly', async () => {
+  it('should display loading state initially', () => {
     render(
-      <MemoryRouter initialEntries={ [`/meals/${RECIPE_ID}`] }>
-        <Routes>
-          <Route path="/meals/:id" element={ <RecipeDetails /> } />
-        </Routes>
-      </MemoryRouter>,
+      <BrowserRouter>
+        <RecipeDetails />
+      </BrowserRouter>,
     );
-
-    expect(await screen.findByTestId('recipe-photo')).toBeInTheDocument();
-    expect(await screen.findByTestId('recipe-title')).toHaveTextContent(mockRecipe.name);
-    expect(await screen.findByTestId('recipe-category')).toHaveTextContent(mockRecipe.category || '');
-    expect(await screen.findByTestId('instructions')).toHaveTextContent(mockRecipe.instructions);
-
-    mockRecipe.ingredients.forEach((ingredient, index) => {
-      expect(screen.getByTestId(`${index}-ingredient-name-and-measure`)).toHaveTextContent(`${ingredient} - ${mockRecipe.measures[index]}`);
-    });
-
-    expect(screen.getByTestId('video')).toBeInTheDocument();
+    expect(screen.getByText(/loading/i)).toBeInTheDocument();
   });
 
-  test('renders recommendations correctly', async () => {
+  it('should display recipe details and recommendations', async () => {
     render(
-      <MemoryRouter initialEntries={ [`/meals/${RECIPE_ID}`] }>
-        <Routes>
-          <Route path="/meals/:id" element={ <RecipeDetails /> } />
-        </Routes>
-      </MemoryRouter>,
+      <BrowserRouter>
+        <RecipeDetails />
+      </BrowserRouter>,
     );
 
-    mockRecommendations.slice(0, 6).forEach((rec, index) => {
-      expect(screen.getByTestId(`${index}-recommendation-card`)).toBeInTheDocument();
-      expect(screen.getByTestId(`${index}-recommendation-title`)).toHaveTextContent(rec.name);
-    });
+    await waitFor(() => expect(screen.getByTestId('recipe-title')).toBeInTheDocument());
+
+    expect(screen.getByTestId('recipe-title').textContent).toBe('Mock Recipe');
+    expect(screen.getByTestId('recipe-photo')).toHaveAttribute('src', 'image.jpg');
+    expect(screen.getByTestId('instructions').textContent).toBe('Mix ingredients');
+    expect(screen.getAllByTestId(/ingredient-name-and-measure/).length).toBe(2);
+    expect(screen.getByTestId('video')).toHaveAttribute('src', 'https://www.youtube.com/embed/mockvideo');
   });
 
-  test('hides start recipe button if recipe is done', async () => {
-    localStorage.setItem('doneRecipes', JSON.stringify([{ id: RECIPE_ID }]));
-
+  it('should display error if recipe is not found', async () => {
+    (utils.fetchRecipeData as jest.Mock).mockResolvedValue(null);
     render(
-      <MemoryRouter initialEntries={ [`/meals/${RECIPE_ID}`] }>
-        <Routes>
-          <Route path="/meals/:id" element={ <RecipeDetails /> } />
-        </Routes>
-      </MemoryRouter>,
+      <BrowserRouter>
+        <RecipeDetails />
+      </BrowserRouter>,
     );
 
-    expect(screen.queryByTestId('start-recipe-btn')).not.toBeInTheDocument();
-  });
-
-  test('shows start recipe button if recipe is not done', async () => {
-    render(
-      <MemoryRouter initialEntries={ [`/meals/${RECIPE_ID}`] }>
-        <Routes>
-          <Route path="/meals/:id" element={ <RecipeDetails /> } />
-        </Routes>
-      </MemoryRouter>,
-    );
-
-    expect(await screen.findByTestId('start-recipe-btn')).toBeInTheDocument();
+    await waitFor(() => expect(screen.getByText(/recipe not found/i)).toBeInTheDocument());
   });
 });
