@@ -1,0 +1,12 @@
+@media ( max-width : 600px ) {
+
+  .inProgressPage {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .image {
+    width: 300px;
+  }
+}

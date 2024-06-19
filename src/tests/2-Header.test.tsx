@@ -1,4 +1,4 @@
-import { findByText, screen, waitFor } from '@testing-library/dom';
+import { screen, waitFor } from '@testing-library/dom';
 import { vi } from 'vitest';
 import App from '../App';
 import { renderWithRouter } from '../Utils/renderWithRouter';
@@ -104,9 +104,7 @@ describe('Verifica as funcionalidades do header', () => {
     await user.click(nameRadio4);
     await user.click(searchBtn4);
 
-    const mealDetail = await screen.findByText(/mealdetail/i);
-
-    expect(mealDetail).toBeVisible();
+    await waitFor(() => expect(global.location.pathname).toBe('/meals/52771'));
   });
   test('Verifica se aparece o alerta caso o item não seja encontrado', async () => {
     const alert = vi.spyOn(global, 'alert').mockImplementation(() => {});

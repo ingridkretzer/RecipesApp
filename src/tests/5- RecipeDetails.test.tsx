@@ -1,69 +1,61 @@
-import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
-import RecipeDetails from '../Pages/RecipeDetails/RecipeDetails';
-import * as utils from '../Pages/RecipeDetails/recipeUtils';
+import { screen, waitFor, waitForElementToBeRemoved } from '@testing-library/dom';
+import App from '../App';
+import AppProvider from '../Context/AppProvider';
+import { renderWithRouter } from '../Utils/renderWithRouter';
 
-jest.mock('./recipeUtils');
+const loadingText = /loading.../i;
 
-const mockRecipe = {
-  id: '1',
-  name: 'Mock Recipe',
-  category: 'Category',
-  ingredients: ['Ingredient 1', 'Ingredient 2'],
-  measures: ['1 cup', '2 tbsp'],
-  instructions: 'Mix ingredients',
-  image: 'image.jpg',
-  video: 'https://www.youtube.com/embed/mockvideo',
-};
+describe('Verifica a tela de detalhes', () => {
+  test('Verifica se existe o texto "Loading..." antes de carregar as informações', async () => {
+    renderWithRouter(<AppProvider><App /></AppProvider>, { route: '/meals/53060' });
 
-const mockRecommendations = [
-  { id: '2', image: 'image2.jpg', title: 'Recommendation 1' },
-  { id: '3', image: 'image3.jpg', title: 'Recommendation 2' },
-];
+    const loading = await screen.findByText('Loading...');
+    expect(loading).toBeVisible();
+  });
+  test('Verifica os elementos da tela de detalhes da comida após o loaing', async () => {
+    const { user } = renderWithRouter(<AppProvider><App /></AppProvider>, { route: '/meals/53060' });
 
-describe('RecipeDetails', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-    (utils.fetchRecipeData as jest.Mock).mockResolvedValue(mockRecipe);
-    (utils.transformRecipeData as jest.Mock).mockReturnValue(mockRecipe);
-    (utils.fetchRecommendations as jest.Mock).mockResolvedValue(mockRecommendations);
-    (utils.transformRecommendationData as jest.Mock).mockReturnValue(mockRecommendations);
+    const loading2 = screen.getByText(loadingText);
+
+    await waitFor(() => expect(loading2).toBeVisible());
+
+    await waitForElementToBeRemoved(() => screen.getByText(loadingText), { timeout: 3000 });
+
+    const burek = await screen.findByRole('heading', { level: 1 });
+    expect(burek).toHaveTextContent(/burek/i);
   });
 
-  it('should display loading state initially', () => {
-    render(
-      <BrowserRouter>
-        <RecipeDetails />
-      </BrowserRouter>,
-    );
-    expect(screen.getByText(/loading/i)).toBeInTheDocument();
+  test('Verifica se retorna a mensagem Recipe not found caso seja passado o ID errado', async () => {
+    renderWithRouter(<AppProvider><App /></AppProvider>, { route: '/meals/sasdasd' });
+
+    const notFound = await screen.findByText('Recipe not found.');
+    expect(notFound).toBeVisible();
   });
+  test('Verifica as funcionalidades do botão Star Recipe', async () => {
+    const { user } = renderWithRouter(<AppProvider><App /></AppProvider>, { route: '/meals/52771' });
 
-  it('should display recipe details and recommendations', async () => {
-    render(
-      <BrowserRouter>
-        <RecipeDetails />
-      </BrowserRouter>,
-    );
+    const startBtn = await screen.findByTestId('start-recipe-btn');
 
-    await waitFor(() => expect(screen.getByTestId('recipe-title')).toBeInTheDocument());
+    await user.click(startBtn);
 
-    expect(screen.getByTestId('recipe-title').textContent).toBe('Mock Recipe');
-    expect(screen.getByTestId('recipe-photo')).toHaveAttribute('src', 'image.jpg');
-    expect(screen.getByTestId('instructions').textContent).toBe('Mix ingredients');
-    expect(screen.getAllByTestId(/ingredient-name-and-measure/).length).toBe(2);
-    expect(screen.getByTestId('video')).toHaveAttribute('src', 'https://www.youtube.com/embed/mockvideo');
+    await waitFor(() => expect(global.location.pathname).toBe('/meals/52771/in-progress'));
   });
+  test('Verifica os elementos da tela de detalhes do drink após o loaing', async () => {
+    const { user } = renderWithRouter(<AppProvider><App /></AppProvider>, { route: '/drinks/17222' });
 
-  it('should display error if recipe is not found', async () => {
-    (utils.fetchRecipeData as jest.Mock).mockResolvedValue(null);
-    render(
-      <BrowserRouter>
-        <RecipeDetails />
-      </BrowserRouter>,
-    );
+    const loading3 = screen.getByText(loadingText);
 
-    await waitFor(() => expect(screen.getByText(/recipe not found/i)).toBeInTheDocument());
+    await waitFor(() => expect(loading3).toBeVisible());
+
+    await waitForElementToBeRemoved(() => screen.getByText(loadingText), { timeout: 3000 });
+
+    const burek = await screen.findByRole('heading', { level: 1 });
+    expect(burek).toHaveTextContent(/A1/i);
+  });
+  test('Verifica se retorna a mensagem Recipe not found caso seja passado o ID (drink) errado', async () => {
+    renderWithRouter(<AppProvider><App /></AppProvider>, { route: '/drinks/sasdasd' });
+
+    const notFoundD = await screen.findByText('Failed to fetch recipe details.');
+    expect(notFoundD).toBeVisible();
   });
 });

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import './ComponentRecipeDetail.module.css';
 import { fetchRecipeData,
@@ -6,6 +6,7 @@ import { fetchRecipeData,
   Recipe,
   fetchRecommendations,
   transformRecommendationData, Recommendation } from './recipeUtils';
+import AppContext from '../../Context/AppContext';
 
 function RecipeDetails() {
   const { id } = useParams<{ id: string }>();
@@ -15,18 +16,14 @@ function RecipeDetails() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
+  const { setUrl } = useContext(AppContext);
 
   useEffect(() => {
+    setUrl(location.pathname);
     const getRecipeDetails = async () => {
-      if (!id) {
-        setError('Recipe ID is missing.');
-        setLoading(false);
-        return;
-      }
-
       try {
         const type = location.pathname.includes('/meals/') ? 'meals' : 'drinks';
-        const recipeData = await fetchRecipeData(id, type);
+        const recipeData = await fetchRecipeData(id as string, type);
         const recommendationType = type === 'meals' ? 'drinks' : 'meals';
         const recommendationData = await fetchRecommendations(recommendationType);
 
@@ -35,16 +32,12 @@ function RecipeDetails() {
           setRecipe(transformedRecipe);
         } else {
           setError('Recipe not found.');
+          return;
         }
-
-        if (recommendationData) {
-          const transformedRecommendations = transformRecommendationData(
-            recommendationData,
-          );
-          setRecommendations(transformedRecommendations.slice(0, 6)); // Limit to 6 recommendations
-        } else {
-          setError('Recommendations not found.');
-        }
+        const transformedRecommendations = transformRecommendationData(
+          recommendationData,
+        );
+        setRecommendations(transformedRecommendations.slice(0, 6)); // Limit to 6 recommendations
       } catch (err) {
         setError('Failed to fetch recipe details.');
       } finally {

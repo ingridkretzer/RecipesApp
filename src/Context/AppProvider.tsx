@@ -10,6 +10,7 @@ function AppProvider({ children }: { children: React.ReactNode }) {
   const [headerTitle, setHeaderTitle] = useState('Meals');
   const [meals, setMeals] = useState<MealType[]>([]);
   const [drinks, setDrinks] = useState<DrinkType[]>([]);
+  const [url, setUrl] = useState('/meals');
 
   const context = {
     email,
@@ -19,6 +20,8 @@ function AppProvider({ children }: { children: React.ReactNode }) {
     setMeals,
     drinks,
     setDrinks,
+    url,
+    setUrl,
   };
 
   return (
