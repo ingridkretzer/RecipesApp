@@ -9,6 +9,8 @@ type AppContextType = {
   setMeals: React.Dispatch<React.SetStateAction<MealType[]>>;
   drinks: DrinkType[];
   setDrinks: React.Dispatch<React.SetStateAction<DrinkType[]>>;
+  url: string,
+  setUrl: React.Dispatch<React.SetStateAction<string>>
 };
 
 const AppContext = createContext({} as AppContextType);

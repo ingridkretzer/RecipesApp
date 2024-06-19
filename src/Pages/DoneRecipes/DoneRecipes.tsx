@@ -2,10 +2,11 @@ import { useContext, useEffect } from 'react';
 import AppContext from '../../Context/AppContext';
 
 function DoneRecipes() {
-  const { setHeaderTitle } = useContext(AppContext);
+  const { setHeaderTitle, setUrl } = useContext(AppContext);
 
   useEffect(() => {
     setHeaderTitle('Done Recipes');
+    setUrl(window.location.pathname);
   }, []);
 
   return (

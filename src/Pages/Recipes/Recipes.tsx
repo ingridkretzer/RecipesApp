@@ -7,10 +7,11 @@ import styles from './Recipes.module.css';
 import DrinksReceps from '../../Components/Recepies/DrinksRecipes';
 
 function Recipes() {
-  const { setHeaderTitle, setMeals, setDrinks } = useContext(AppContext);
+  const { setHeaderTitle, setMeals, setDrinks, setUrl } = useContext(AppContext);
   const { pathname } = useLocation();
 
   useEffect(() => {
+    setUrl(pathname);
     if (pathname === '/meals') {
       setHeaderTitle('Meals');
     } else {
@@ -25,7 +26,7 @@ function Recipes() {
       set(data);
     };
     getRecipes();
-  }, [pathname]);
+  }, [pathname, setDrinks, setHeaderTitle, setMeals]);
 
   return (
     <section>

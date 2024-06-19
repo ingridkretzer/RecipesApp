@@ -1,10 +1,20 @@
 import { Outlet } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
 import styles from './Layout.module.css';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
+import AppContext from '../../Context/AppContext';
 
 function Layout() {
-  const url = window.location.pathname;
+  const [header, setHeader] = useState(false);
+  const [footer, setFooter] = useState(false);
+  const { url } = useContext(AppContext);
+
+  useEffect(() => {
+    setHeader(headerOn.some((param) => param === url));
+    setFooter(footerOn.some((param) => param === url));
+  }, [url]);
+
   const headerOn = [
     '/meals',
     '/drinks',
@@ -20,11 +30,11 @@ function Layout() {
   return (
     // footer e header renderizados condicionalmente
     <div className={ styles.layout }>
-      {headerOn.some((param) => param === url) && <Header />}
+      {header && <Header />}
       <main className={ styles.main }>
         <Outlet />
       </main>
-      {footerOn.some((param) => param === url) && <Footer />}
+      {footer && <Footer />}
     </div>
   );
 }
