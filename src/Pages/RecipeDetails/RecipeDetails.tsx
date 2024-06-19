@@ -1,84 +1,63 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useParams, useLocation } from 'react-router-dom';
+import './ComponentRecipeDetail.module.css';
+import RecommendationCarousel from './Carousel';
 import {
-  Recipe,
-  Recommendation,
   fetchRecipeData,
   fetchRecommendations,
   transformRecipeData,
   transformRecommendationData,
+  Recipe,
+  Recommendation,
 } from './recipeUtils';
-import RecommendationCarousel from './Carousel';
-import RecipeDetail from './ComponentRecipeDetail';
-import styles from './ComponentRecipeDetail.module.css';
+import StartRecipeButton from './StartRecipeButton';
 
 function RecipeDetails() {
   const { id } = useParams<{ id: string }>();
   const location = useLocation();
-  const navigate = useNavigate();
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [isDone, setIsDone] = useState<boolean>(false);
-  const [isInProgress, setIsInProgress] = useState<boolean>(false);
-
-  const checkRecipeStatus = useCallback(() => {
-    const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes') || '[]');
-    const done = doneRecipes.some((doneRecipe: any) => doneRecipe.id === id);
-    setIsDone(done);
-
-    const inProgressRecipes = JSON.parse(localStorage
-      .getItem('inProgressRecipes') || '{}');
-    const type = location.pathname.includes('/meals/') ? 'meals' : 'drinks';
-    const inProgress = inProgressRecipes[type]?.[id as string];
-    setIsInProgress(!!inProgress);
-  }, [id, location.pathname]);
-
-  const loadRecipeDetails = useCallback(async () => {
-    try {
-      const type = location.pathname.includes('/meals/') ? 'meals' : 'drinks';
-      const recipeData = await fetchRecipeData(id!, type);
-      const recommendationType = type === 'meals' ? 'drinks' : 'meals';
-      const recommendationData = await fetchRecommendations(recommendationType);
-
-      if (recipeData) {
-        const transformedRecipe = transformRecipeData(recipeData);
-        setRecipe(transformedRecipe);
-      } else {
-        setError('Recipe not found.');
-      }
-
-      if (recommendationData) {
-        const transformedRecommendations = transformRecommendationData(
-          recommendationData,
-        );
-        setRecommendations(transformedRecommendations.slice(0, 6)); // Renderizar exatamente 6 recomendações
-      } else {
-        setError('Recommendations not found.');
-      }
-    } catch (err) {
-      setError('Failed to fetch recipe details.');
-    } finally {
-      setLoading(false);
-    }
-  }, [id, location.pathname]);
 
   useEffect(() => {
-    if (!id) {
-      setError('Recipe ID is missing.');
-      setLoading(false);
-      return;
-    }
+    const getRecipeDetails = async () => {
+      if (!id) {
+        setError('Recipe ID is missing.');
+        setLoading(false);
+        return;
+      }
 
-    checkRecipeStatus();
-    loadRecipeDetails();
-  }, [id, location.pathname, checkRecipeStatus, loadRecipeDetails]);
+      try {
+        const type = location.pathname.includes('/meals/') ? 'meals' : 'drinks';
+        const recipeData = await fetchRecipeData(id, type);
+        const recommendationType = type === 'meals' ? 'drinks' : 'meals';
+        const recommendationData = await fetchRecommendations(recommendationType);
 
-  const handleStartRecipe = () => {
-    const type = location.pathname.includes('/meals/') ? 'meals' : 'drinks';
-    navigate(`/${type}/${id}/in-progress`);
-  };
+        if (recipeData) {
+          const transformedRecipe = transformRecipeData(recipeData);
+          setRecipe(transformedRecipe);
+        } else {
+          setError('Recipe not found.');
+        }
+
+        if (recommendationData) {
+          const transformedRecommendations = transformRecommendationData(
+            recommendationData,
+          );
+          setRecommendations(transformedRecommendations.slice(0, 6)); // Limit to 6 recommendations
+        } else {
+          setError('Recommendations not found.');
+        }
+      } catch (err) {
+        setError('Failed to fetch recipe details.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getRecipeDetails();
+  }, [id, location.pathname]);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
@@ -87,19 +66,42 @@ function RecipeDetails() {
     <div className="recipe-details">
       {recipe && (
         <>
-          <RecipeDetail recipe={ recipe } />
+          <img src={ recipe.image } alt={ recipe.name } data-testid="recipe-photo" />
+          <h1 data-testid="recipe-title">{recipe.name}</h1>
+          <p data-testid="recipe-category">
+            {location.pathname.includes('/meals/') ? recipe.category : recipe.alcoholic}
+          </p>
+          <h2>Ingredients</h2>
+          <ul>
+            {recipe.ingredients.map((ingredient, index) => (
+              <li key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
+                {ingredient}
+                {' '}
+                -
+                {recipe.measures[index]}
+              </li>
+            ))}
+          </ul>
+          <h2>Instructions</h2>
+          <p data-testid="instructions">{recipe.instructions}</p>
+          {recipe.video && (
+            <div>
+              <h2>Video</h2>
+              <iframe
+                data-testid="video"
+                width="560"
+                height="315"
+                src={ recipe.video }
+                title="YouTube video player"
+                allow="accelerometer; autoplay; clipboard-write;
+                encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          )}
           <h2>Recommendations</h2>
           <RecommendationCarousel recommendations={ recommendations } />
-          {!isDone && (
-            <button
-              type="button"
-              data-testid="start-recipe-btn"
-              className={ styles.startRecipeBtn }
-              onClick={ handleStartRecipe }
-            >
-              {isInProgress ? 'Continue Recipe' : 'Start Recipe'}
-            </button>
-          )}
+          <StartRecipeButton recipeId={ recipe.id } />
         </>
       )}
     </div>

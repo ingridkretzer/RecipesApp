@@ -12,8 +12,9 @@ export interface Recipe {
 
 export interface Recommendation {
   id: string;
-  name: string;
   image: string;
+  title: string;
+  name: string;
 }
 
 export const fetchRecipeData = async (id: string, type: 'meals' | 'drinks') => {
@@ -66,11 +67,11 @@ export const transformRecipeData = (recipeData: any): Recipe => {
   };
 };
 
-export const transformRecommendationData = (recommendationData: any[])
+export const transformRecommendationData = (recommendationData: any)
 : Recommendation[] => {
-  return recommendationData.map((item) => ({
+  return recommendationData.map((item: any) => ({
     id: item.idMeal || item.idDrink,
-    name: item.strMeal || item.strDrink,
+    title: item.strMeal || item.strDrink,
     image: item.strMealThumb || item.strDrinkThumb,
   }));
 };

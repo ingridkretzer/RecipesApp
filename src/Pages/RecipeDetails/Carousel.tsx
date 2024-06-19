@@ -3,8 +3,8 @@ import styles from './Carousel.module.css';
 
 interface Recommendation {
   id: string;
-  name: string;
   image: string;
+  title: string;
 }
 
 interface RecommendationCarouselProps {
@@ -14,18 +14,16 @@ interface RecommendationCarouselProps {
 function RecommendationCarousel({ recommendations }: RecommendationCarouselProps) {
   return (
     <div className={ styles.carouselContainer }>
-      <div className={ styles.carousel }>
-        {recommendations.slice(0, 6).map((rec, index) => (
-          <div
-            key={ rec.id }
-            className={ styles.carouselItem }
-            data-testid={ `${index}-recommendation-card` }
-          >
-            <img src={ rec.image } alt={ rec.name } />
-            <p data-testid={ `${index}-recommendation-title` }>{rec.name}</p>
-          </div>
-        ))}
-      </div>
+      {recommendations.map((recommendation, index) => (
+        <div
+          key={ recommendation.id }
+          className={ styles.card }
+          data-testid={ `${index}-recommendation-card` }
+        >
+          <img src={ recommendation.image } alt={ recommendation.title } />
+          <p data-testid={ `${index}-recommendation-title` }>{recommendation.title}</p>
+        </div>
+      ))}
     </div>
   );
 }

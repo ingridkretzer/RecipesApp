@@ -1,0 +1,15 @@
+/* src/components/StartRecipeButton.css */
+.start-recipe-btn {
+  background-color: #ff5722;
+  border: none;
+  bottom: 0;
+  color: white;
+  cursor: pointer;
+  font-size: 18px;
+  left: 0;
+  padding: 15px;
+  position: fixed;
+  text-align: center;
+  width: 100%;
+  z-index: 1000;
+}

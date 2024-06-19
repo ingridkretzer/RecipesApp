@@ -1,19 +1,23 @@
-.carousel-container {
+.carouselContainer {
   display: flex;
   -webkit-overflow-scrolling: touch;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
 }
 
-.carousel {
-  display: flex;
-  flex-direction: row;
-}
-
-.carousel-item {
+.card {
   box-sizing: border-box;
-  flex: 0 0 auto;
+  display: inline-block;
+  flex: 0 0 50%; /* Show two cards at a time */
   padding: 10px;
   scroll-snap-align: start;
-  width: 50%;
+}
+
+.card img {
+  height: auto;
+  width: 100%;
+}
+
+.card p {
+  text-align: center;
 }
