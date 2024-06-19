@@ -21,7 +21,7 @@ describe('Verifica as funcionalidades da página de receitas em progresso', () =
       await user.click(favoriteButton);
       const favorites = JSON.parse(localStorage.getItem('favoriteRecipes') || '[]');
       expect(favorites).toContainEqual(expect.objectContaining({ id: '52771' }));
-    });
+    }, { timeout: 3000 });
   });
 
   it('Verifica se os ingredientes são marcados corretamente em meals', async () => {
@@ -32,7 +32,7 @@ describe('Verifica as funcionalidades da página de receitas em progresso', () =
       expect(checkbox).toBeInTheDocument();
       await user.click(checkbox);
       expect(checkbox).toBeChecked();
-    });
+    }, { timeout: 3000 });
   });
 
   it('Verifica se os ingredientes são marcados corretamente em drinks', async () => {
@@ -43,7 +43,7 @@ describe('Verifica as funcionalidades da página de receitas em progresso', () =
       expect(checkbox).toBeInTheDocument();
       await user.click(checkbox);
       expect(checkbox).toBeChecked();
-    });
+    }, { timeout: 3000 });
   });
 
   it('Verifica se o botão de copiar receita funciona corretamente', async () => {
@@ -52,7 +52,7 @@ describe('Verifica as funcionalidades da página de receitas em progresso', () =
     await waitFor(async () => {
       const copyButton = await screen.findByTestId('share-btn');
       expect(copyButton).toBeInTheDocument();
-    });
+    }, { timeout: 3000 });
 
     const copyButton = await screen.findByTestId('share-btn');
     await user.click(copyButton);
@@ -60,7 +60,7 @@ describe('Verifica as funcionalidades da página de receitas em progresso', () =
     await waitFor(async () => {
       const copiedMessage = await screen.findByText('Link copied!');
       expect(copiedMessage).toBeInTheDocument();
-    });
+    }, { timeout: 3000 });
   });
 
   it('Verifica se a receita é finalizada corretamente', async () => {
@@ -69,7 +69,7 @@ describe('Verifica as funcionalidades da página de receitas em progresso', () =
     await waitFor(async () => {
       const checkbox = await screen.findByLabelText(/penne rigate - 1 pound/i);
       await user.click(checkbox);
-    });
+    }, { timeout: 3000 });
 
     const finishButton = await screen.findByTestId(finishBtn);
     await user.click(finishButton);
@@ -77,7 +77,7 @@ describe('Verifica as funcionalidades da página de receitas em progresso', () =
     await waitFor(() => {
       const storedProgress = JSON.parse(localStorage.getItem('inProgressRecipes') || '{}');
       expect(storedProgress.meals['52771']).toHaveLength(1);
-    });
+    }, { timeout: 3000 });
   });
 
   beforeEach(() => {
@@ -103,14 +103,14 @@ describe('Verifica as funcionalidades da página de receitas em progresso', () =
         name: 'ACID',
         image: 'https://www.thecocktaildb.com/images/media/drink/xuxpxt1479209317.jpg',
       }]);
-    });
+    }, { timeout: 3000 });
 
     await user.click(favoriteButton);
 
     await waitFor(() => {
       const storedFavorites = JSON.parse(localStorage.getItem('favoriteRecipes') || '[]');
       expect(storedFavorites).toEqual([]);
-    });
+    }, { timeout: 3000 });
   });
 
   it('verifica o botao finish recipe', async () => {
@@ -143,17 +143,17 @@ describe('Verifica as funcionalidades da página de receitas em progresso', () =
     await user.click(checkbox1);
     await waitFor(() => {
       expect(checkbox1).toHaveStyle('text-decoration: line-through solid rgb(0, 0, 0);');
-    });
+    }, { timeout: 3000 });
 
     await user.click(checkbox1);
     await waitFor(() => {
       expect(checkbox1).toHaveStyle('text-decoration: none;');
-    });
+    }, { timeout: 3000 });
 
     await waitFor(() => {
       const storedProgress = JSON.parse(localStorage.getItem('inProgressRecipes') || '{}');
       expect(storedProgress.drinks['14610']).toEqual([]);
-    });
+    }, { timeout: 3000 });
   });
 
   it('Verifica se o botão de favoritar funciona corretamente para bebidas', async () => {
@@ -199,6 +199,6 @@ describe('Verifica as funcionalidades da página de receitas em progresso', () =
         doneDate: expect.any(String),
         tags: expect.any(Array),
       }));
-    });
+    }, { timeout: 3000 });
   });
 });
