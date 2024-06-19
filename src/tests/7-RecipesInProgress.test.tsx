@@ -15,7 +15,7 @@ describe('Verifica as funcionalidades da página de receitas em progresso', () =
     const { user } = renderWithRouter(<AppProvider><App /></AppProvider>, { route });
 
     await waitFor(async () => {
-      const favoriteButton = screen.getByTestId(favoriteBtn);
+      const favoriteButton = await screen.findByTestId(favoriteBtn);
       expect(favoriteButton).toBeInTheDocument();
 
       await user.click(favoriteButton);
@@ -28,7 +28,7 @@ describe('Verifica as funcionalidades da página de receitas em progresso', () =
     const { user } = renderWithRouter(<AppProvider><App /></AppProvider>, { route });
 
     await waitFor(async () => {
-      const checkbox = screen.getByLabelText(/penne rigate - 1 pound/i);
+      const checkbox = await screen.findByLabelText(/penne rigate - 1 pound/i);
       expect(checkbox).toBeInTheDocument();
       await user.click(checkbox);
       expect(checkbox).toBeChecked();
@@ -39,7 +39,7 @@ describe('Verifica as funcionalidades da página de receitas em progresso', () =
     const { user } = renderWithRouter(<AppProvider><App /></AppProvider>, { route: routeDrink });
 
     await waitFor(async () => {
-      const checkbox = screen.getByLabelText(/Wild Turkey - 1 oz/i);
+      const checkbox = await screen.findByLabelText(/Wild Turkey - 1 oz/i);
       expect(checkbox).toBeInTheDocument();
       await user.click(checkbox);
       expect(checkbox).toBeChecked();
@@ -49,16 +49,16 @@ describe('Verifica as funcionalidades da página de receitas em progresso', () =
   it('Verifica se o botão de copiar receita funciona corretamente', async () => {
     const { user } = renderWithRouter(<AppProvider><App /></AppProvider>, { route });
 
-    await waitFor(() => {
-      const copyButton = screen.getByTestId('share-btn');
+    await waitFor(async () => {
+      const copyButton = await screen.findByTestId('share-btn');
       expect(copyButton).toBeInTheDocument();
     });
 
-    const copyButton = screen.getByTestId('share-btn');
+    const copyButton = await screen.findByTestId('share-btn');
     await user.click(copyButton);
 
-    await waitFor(() => {
-      const copiedMessage = screen.getByText('Link copied!');
+    await waitFor(async () => {
+      const copiedMessage = await screen.findByText('Link copied!');
       expect(copiedMessage).toBeInTheDocument();
     });
   });
@@ -67,11 +67,11 @@ describe('Verifica as funcionalidades da página de receitas em progresso', () =
     const { user } = renderWithRouter(<AppProvider><App /></AppProvider>, { route });
 
     await waitFor(async () => {
-      const checkbox = screen.getByLabelText(/penne rigate - 1 pound/i);
+      const checkbox = await screen.findByLabelText(/penne rigate - 1 pound/i);
       await user.click(checkbox);
     });
 
-    const finishButton = screen.getByTestId(finishBtn);
+    const finishButton = await screen.findByTestId(finishBtn);
     await user.click(finishButton);
 
     await waitFor(() => {
@@ -87,7 +87,7 @@ describe('Verifica as funcionalidades da página de receitas em progresso', () =
   it('Verifica se o botão de favoritar funciona corretamente', async () => {
     const { user } = renderWithRouter(<AppProvider><App /></AppProvider>, { route: routeDrink });
 
-    const favoriteButton = await waitFor(() => screen.getByTestId(favoriteBtn));
+    const favoriteButton = await screen.findByTestId(favoriteBtn);
     expect(favoriteButton).toBeInTheDocument();
 
     await user.click(favoriteButton);
@@ -105,7 +105,7 @@ describe('Verifica as funcionalidades da página de receitas em progresso', () =
       }]);
     });
 
-    user.click(favoriteButton);
+    await user.click(favoriteButton);
 
     await waitFor(() => {
       const storedFavorites = JSON.parse(localStorage.getItem('favoriteRecipes') || '[]');
@@ -125,7 +125,7 @@ describe('Verifica as funcionalidades da página de receitas em progresso', () =
     await user.click(checkbox1);
     await user.click(checkbox2);
 
-    const finishButton = screen.getByTestId(finishBtn);
+    const finishButton = await screen.findByTestId(finishBtn);
 
     await user.click(finishButton);
 
@@ -161,7 +161,6 @@ describe('Verifica as funcionalidades da página de receitas em progresso', () =
 
     const favoriteButton = await screen.findByTestId('favorite-btn');
     expect(favoriteButton).toBeInTheDocument();
-
     await user.click(favoriteButton);
     const storedFavorites = JSON.parse(localStorage.getItem('favoriteRecipes') || '[]');
     expect(storedFavorites).toContainEqual(expect.objectContaining({ id: '14610' }));
@@ -183,7 +182,7 @@ describe('Verifica as funcionalidades da página de receitas em progresso', () =
       expect(checkbox).toBeChecked();
     });
 
-    const finishButton = screen.getByTestId('finish-recipe-btn');
+    const finishButton = await screen.findByTestId('finish-recipe-btn');
     expect(finishButton).not.toBeDisabled();
     await user.click(finishButton);
 
