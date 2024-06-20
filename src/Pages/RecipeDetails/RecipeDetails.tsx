@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
-import './ComponentRecipeDetail.module.css';
+import styles from './ComponentRecipeDetail.module.css';
 import { fetchRecipeData,
   transformRecipeData,
   Recipe,
@@ -77,7 +77,12 @@ function RecipeDetails() {
     <div className="recipe-details">
       {recipe && (
         <>
-          <img src={ recipe.image } alt={ recipe.name } data-testid="recipe-photo" />
+          <img
+            className={ styles.recipeImage }
+            src={ recipe.image }
+            alt={ recipe.name }
+            data-testid="recipe-photo"
+          />
           <h1 data-testid="recipe-title">{recipe.name}</h1>
           <p data-testid="recipe-category">
             {location.pathname.includes('/meals/') ? recipe.category : recipe.alcoholic}
@@ -90,7 +95,7 @@ function RecipeDetails() {
             <img src={ shareIcon } alt="Share Icon" />
           </button>
           {linkCopied && <p>Link copied!</p>}
-          <FavoriteButton recipeId={ id! } type={ type } />
+          <FavoriteButton recipe={ recipe! } type={ type } />
           <h2>Ingredients</h2>
           <ul>
             {recipe.ingredients.map((ingredient, index) => (
@@ -124,6 +129,7 @@ function RecipeDetails() {
             {recommendations.map((rec, index) => (
               <div key={ index } data-testid={ `${index}-recommendation-card` }>
                 <img
+                  className={ styles.recRecipesImg }
                   src={ rec.image }
                   alt={ rec.name }
                   data-testid={ `${index}-recommendation-photo` }
