@@ -7,6 +7,9 @@ import { fetchRecipeData,
   fetchRecommendations,
   transformRecommendationData, Recommendation } from './recipeUtils';
 import AppContext from '../../Context/AppContext';
+import { isRecipeInProgress } from './continueRecipeUtil';
+import { shareRecipe, toggleFavoriteRecipe } from './shareAndFavorite';
+import shareIcon from '../../images/shareIcon.svg';
 
 function RecipeDetails() {
   const { id } = useParams<{ id: string }>();
@@ -16,6 +19,8 @@ function RecipeDetails() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
+  const [isFavorite, setIsFavorite] = useState<boolean>(false);
+  const [linkCopied, setLinkCopied] = useState<boolean>(false);
   const { setUrl } = useContext(AppContext);
 
   useEffect(() => {
@@ -37,7 +42,7 @@ function RecipeDetails() {
         const transformedRecommendations = transformRecommendationData(
           recommendationData,
         );
-        setRecommendations(transformedRecommendations.slice(0, 6)); // Limit to 6 recommendations
+        setRecommendations(transformedRecommendations.slice(0, 6));
       } catch (err) {
         setError('Failed to fetch recipe details.');
       } finally {
@@ -46,7 +51,7 @@ function RecipeDetails() {
     };
 
     getRecipeDetails();
-  }, [id, location.pathname]);
+  }, [id, location.pathname, setUrl]);
 
   const handleStartRecipeClick = () => {
     const inProgressRoute = location.pathname.includes('/meals/')
@@ -54,8 +59,25 @@ function RecipeDetails() {
     navigate(inProgressRoute);
   };
 
+  const handleShareClick = async () => {
+    const url = window.location.href;
+    await shareRecipe(url);
+    setLinkCopied(true);
+    setTimeout(() => setLinkCopied(false), 3000);
+  };
+
+  const handleFavoriteClick = () => {
+    const type = location.pathname.includes('/meals/') ? 'meals' : 'drinks';
+    const newFavoriteState = toggleFavoriteRecipe(id!, type);
+    setIsFavorite(newFavoriteState);
+  };
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
+
+  const type = location.pathname.includes('/meals/') ? 'meals' : 'drinks';
+  const isInProgress = isRecipeInProgress(id!, type);
+  const buttonText = isInProgress ? 'Continue Recipe' : 'Start Recipe';
 
   return (
     <div className="recipe-details">
@@ -66,6 +88,21 @@ function RecipeDetails() {
           <p data-testid="recipe-category">
             {location.pathname.includes('/meals/') ? recipe.category : recipe.alcoholic}
           </p>
+          <button
+            type="button"
+            data-testid="share-btn"
+            onClick={ handleShareClick }
+          >
+            <img src={ shareIcon } alt="Share Icon" />
+          </button>
+          {linkCopied && <p>Link copied!</p>}
+          <button
+            type="button"
+            data-testid="favorite-btn"
+            onClick={ handleFavoriteClick }
+          >
+            {isFavorite ? 'Unfavorite' : 'Favorite'}
+          </button>
           <h2>Ingredients</h2>
           <ul>
             {recipe.ingredients.map((ingredient, index) => (
@@ -100,7 +137,7 @@ function RecipeDetails() {
             data-testid="start-recipe-btn"
             onClick={ handleStartRecipeClick }
           >
-            Start Recipe
+            {buttonText}
           </button>
         </>
       )}
@@ -109,51 +146,3 @@ function RecipeDetails() {
 }
 
 export default RecipeDetails;
-
-//   return (
-//     <div className="recipe-details">
-//       {recipe && (
-//         <>
-//           <img src={ recipe.image } alt={ recipe.name } data-testid="recipe-photo" />
-//           <h1 data-testid="recipe-title">{recipe.name}</h1>
-//           <p data-testid="recipe-category">
-//             {location.pathname.includes('/meals/') ? recipe.category : recipe.alcoholic}
-//           </p>
-//           <h2>Ingredients</h2>
-//           <ul>
-//             {recipe.ingredients.map((ingredient, index) => (
-//               <li key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
-//                 {ingredient}
-//                 {' '}
-//                 -
-//                 {recipe.measures[index]}
-//               </li>
-//             ))}
-//           </ul>
-//           <h2>Instructions</h2>
-//           <p data-testid="instructions">{recipe.instructions}</p>
-//           {recipe.video && (
-//             <iframe
-//               data-testid="video"
-//               width="560"
-//               height="315"
-//               src={ recipe.video }
-//               title="YouTube video player"
-//               allow="accelerometer; autoplay; clipboard-write;
-//               encrypted-media; gyroscope; picture-in-picture"
-//               allowFullScreen
-//             />
-//           )}
-//           <h2>Recommendations</h2>
-//         </>
-//       )}
-//       <button
-//         style={ { position: 'fixed', bottom: '0', width: '100%' } }
-//         data-testid="start-recipe-btn"
-//         onClick={ handleStartRecipeClick }
-//       >
-//         Start Recipe
-//       </button>
-//     </div>
-//   );
-// }
