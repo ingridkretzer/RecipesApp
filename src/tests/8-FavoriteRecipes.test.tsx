@@ -40,7 +40,7 @@ describe('Verifica as funcionalidades da página de receitas favoritas', () => {
   beforeEach(() => {
     // Mock do localStorage
     vi.stubGlobal('localStorage', {
-      getItem: (key) => {
+      getItem: (key: string) => {
         if (key === 'favoriteRecipes') {
           return JSON.stringify(favoriteRecipes);
         }
