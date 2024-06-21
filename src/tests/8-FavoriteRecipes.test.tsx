@@ -51,6 +51,7 @@ describe('Verifica as funcionalidades da página de receitas favoritas', () => {
       clear: vi.fn(),
     });
 
+    // Adiciona os favoritos ao localStorage
     window.localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
 
     renderWithRouter(
