@@ -5,7 +5,7 @@ import Layout from './Components/Layout/Layout';
 import Recipes from './Pages/Recipes/Recipes';
 import Profile from './Pages/Profile/Profile';
 import DoneRecipes from './Pages/DoneRecipes/DoneRecipes';
-import Favorites from './Pages/Favorites/Favorites';
+import Favorites from './Pages/Favorites/FavoriteRecipes';
 import RecipeDetails from './Pages/RecipeDetails/RecipeDetails';
 import RecipeInProgress from './Pages/RecipeInProgress/RecipeInProgress';
 
