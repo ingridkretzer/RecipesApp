@@ -8,6 +8,8 @@ export interface Recipe {
   instructions: string;
   image: string;
   video?: string;
+  nationality: string;
+  type: string
 }
 
 export interface Recommendation {
@@ -56,14 +58,16 @@ export const transformRecipeData = (recipeData: any): Recipe => {
 
   return {
     id: recipeData.idMeal || recipeData.idDrink,
+    type: recipeData.strMeal ? 'meal' : 'drink',
     name: recipeData.strMeal || recipeData.strDrink,
     category: recipeData.strCategory,
-    alcoholic: recipeData.strAlcoholic,
+    alcoholic: recipeData.strAlcoholic || '',
     ingredients,
     measures,
     instructions: recipeData.strInstructions,
     image: recipeData.strMealThumb || recipeData.strDrinkThumb,
     video: recipeData.strYoutube ? `https://www.youtube.com/embed/${recipeData.strYoutube.split('=')[1]}` : undefined,
+    nationality: recipeData.strArea || '',
   };
 };
 

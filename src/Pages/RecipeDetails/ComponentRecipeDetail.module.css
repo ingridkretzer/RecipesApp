@@ -12,3 +12,14 @@
   width: 100%;
   z-index: 1000;
 }
+
+@media ( max-width : 600px ) {
+
+  .recipeImage {
+    width: 300px;
+  }
+
+  .recRecipesImg {
+    width: 300px;
+  }
+}

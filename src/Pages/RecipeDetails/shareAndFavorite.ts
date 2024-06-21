@@ -1,3 +1,5 @@
+import { Recipe } from './recipeUtils';
+
 export const shareRecipe = async (url: string): Promise<void> => {
   if (navigator.clipboard) {
     try {
@@ -10,16 +12,26 @@ export const shareRecipe = async (url: string): Promise<void> => {
   }
 };
 
-export const toggleFavoriteRecipe = (recipeId: string, type: 'meals' | 'drinks') => {
+export const toggleFavoriteRecipe = (recipe: Recipe, type: 'meals' | 'drinks') => {
   const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes') || '[]');
 
-  const isFavorite = favoriteRecipes.some((recipe: any) => recipe.id === recipeId);
+  const isFavorite = favoriteRecipes
+    .some((storeRecipe: any) => storeRecipe.id === recipe.id);
 
   let updatedFavorites;
   if (isFavorite) {
-    updatedFavorites = favoriteRecipes.filter((recipe: any) => recipe.id !== recipeId);
+    updatedFavorites = favoriteRecipes
+      .filter((storeRecipe: any) => storeRecipe.id !== recipe.id);
   } else {
-    const newFavorite = { id: recipeId, type };
+    const newFavorite = {
+      id: recipe.id,
+      type: recipe.type,
+      nationality: recipe.nationality,
+      category: recipe.category,
+      alcoholicOrNot: recipe.alcoholic,
+      name: recipe.name,
+      image: recipe.image,
+    };
     updatedFavorites = [...favoriteRecipes, newFavorite];
   }
 

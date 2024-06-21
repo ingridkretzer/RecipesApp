@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
-import './ComponentRecipeDetail.module.css';
+import styles from './ComponentRecipeDetail.module.css';
 import { fetchRecipeData,
   transformRecipeData,
   Recipe,
@@ -8,8 +8,9 @@ import { fetchRecipeData,
   transformRecommendationData, Recommendation } from './recipeUtils';
 import AppContext from '../../Context/AppContext';
 import { isRecipeInProgress } from './continueRecipeUtil';
-import { shareRecipe, toggleFavoriteRecipe } from './shareAndFavorite';
+import { shareRecipe } from './shareAndFavorite';
 import shareIcon from '../../images/shareIcon.svg';
+import FavoriteButton from './HeartButton';
 
 function RecipeDetails() {
   const { id } = useParams<{ id: string }>();
@@ -19,7 +20,6 @@ function RecipeDetails() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
-  const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const [linkCopied, setLinkCopied] = useState<boolean>(false);
   const { setUrl } = useContext(AppContext);
 
@@ -66,12 +66,6 @@ function RecipeDetails() {
     setTimeout(() => setLinkCopied(false), 3000);
   };
 
-  const handleFavoriteClick = () => {
-    const type = location.pathname.includes('/meals/') ? 'meals' : 'drinks';
-    const newFavoriteState = toggleFavoriteRecipe(id!, type);
-    setIsFavorite(newFavoriteState);
-  };
-
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
 
@@ -83,7 +77,12 @@ function RecipeDetails() {
     <div className="recipe-details">
       {recipe && (
         <>
-          <img src={ recipe.image } alt={ recipe.name } data-testid="recipe-photo" />
+          <img
+            className={ styles.recipeImage }
+            src={ recipe.image }
+            alt={ recipe.name }
+            data-testid="recipe-photo"
+          />
           <h1 data-testid="recipe-title">{recipe.name}</h1>
           <p data-testid="recipe-category">
             {location.pathname.includes('/meals/') ? recipe.category : recipe.alcoholic}
@@ -96,13 +95,7 @@ function RecipeDetails() {
             <img src={ shareIcon } alt="Share Icon" />
           </button>
           {linkCopied && <p>Link copied!</p>}
-          <button
-            type="button"
-            data-testid="favorite-btn"
-            onClick={ handleFavoriteClick }
-          >
-            {isFavorite ? 'Unfavorite' : 'Favorite'}
-          </button>
+          <FavoriteButton recipe={ recipe! } type={ type } />
           <h2>Ingredients</h2>
           <ul>
             {recipe.ingredients.map((ingredient, index) => (
@@ -132,6 +125,19 @@ function RecipeDetails() {
             </div>
           )}
           <h2>Recommendations</h2>
+          <div className="recommendations">
+            {recommendations.map((rec, index) => (
+              <div key={ index } data-testid={ `${index}-recommendation-card` }>
+                <img
+                  className={ styles.recRecipesImg }
+                  src={ rec.image }
+                  alt={ rec.name }
+                  data-testid={ `${index}-recommendation-photo` }
+                />
+                <p data-testid={ `${index}-recommendation-title` }>{rec.name}</p>
+              </div>
+            ))}
+          </div>
           <button
             style={ { position: 'fixed', bottom: '0', width: '100%' } }
             data-testid="start-recipe-btn"
