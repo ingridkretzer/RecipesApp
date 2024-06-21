@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import useLocalStorage from '../../Hooks/useLocalStorage';
 import ShareButton from '../../images/shareIcon.svg';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
@@ -22,10 +22,10 @@ function Favorites() {
   const favoritesRecipes = getLocalStorage('favoriteRecipes');
   const [copyMessage, setCopyMessage] = useState('');
   const [filteredRecipes, setFilteredRecipes] = useState<Recipe[]>(favoritesRecipes);
-
-  const { setHeaderTitle } = useContext(AppContext);
+  const { pathname } = useLocation();
+  const { setUrl } = useContext(AppContext);
   useEffect(() => {
-    setHeaderTitle('Favorite Recipes');
+    setUrl(pathname);
   }, []);
 
   function handleShareClickDone(type: 'meal' | 'drink', id: string) {
