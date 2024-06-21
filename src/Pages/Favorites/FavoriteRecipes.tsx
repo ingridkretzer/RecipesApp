@@ -23,9 +23,8 @@ function Favorites() {
   const [copyMessage, setCopyMessage] = useState('');
   const [filteredRecipes, setFilteredRecipes] = useState<Recipe[]>(favoritesRecipes);
 
-  const { setHeaderTitle, setUrl } = useContext(AppContext);
+  const { setHeaderTitle } = useContext(AppContext);
   useEffect(() => {
-    setUrl(window.loacation.pathname);
     setHeaderTitle('Favorite Recipes');
   }, []);
 
