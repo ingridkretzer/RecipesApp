@@ -23,9 +23,10 @@ function Favorites() {
   const [copyMessage, setCopyMessage] = useState('');
   const [filteredRecipes, setFilteredRecipes] = useState<Recipe[]>(favoritesRecipes);
   const { pathname } = useLocation();
-  const { setUrl } = useContext(AppContext);
+  const { setUrl, setHeaderTitle } = useContext(AppContext);
   useEffect(() => {
     setUrl(pathname);
+    setHeaderTitle('Favorite Recipes');
   }, []);
 
   function handleShareClickDone(type: 'meal' | 'drink', id: string) {
@@ -34,21 +35,22 @@ function Favorites() {
     setCopyMessage('Link copied!');
   }
 
-  function filterRecipes(type: 'meal' | 'drink' | 'all') {
-    if (type === 'meal') {
+  function filterRecipes(type: 'meals' | 'drinks' | 'all') {
+    if (type === 'meals') {
       const meals = favoritesRecipes.filter((recipe: Recipe) => recipe.type === 'meal');
       setFilteredRecipes(meals);
-    } else if (type === 'drink') {
-      const drinks = favoritesRecipes.filter((recipe: Recipe) => recipe.type === 'drink');
+    } else if (type === 'drinks') {
+      const drinks = favoritesRecipes
+        .filter((recipe: Recipe) => recipe.type === 'drink');
       setFilteredRecipes(drinks);
     } else {
       setFilteredRecipes(favoritesRecipes);
     }
   }
 
-  function handleRecipeClick(type: 'meal' | 'drink', id: string) {
-    console.log(`Navigating to /${type}s/${id}`);
-    navigate(`/${type}s/${id}`);
+  function handleRecipeClick(type: 'meals' | 'drinks', id: string) {
+    console.log(`Navigating to /${type}/${id}`);
+    navigate(`/${type}/${id}`);
   }
 
   function handleFavorite(id: string) {
@@ -69,44 +71,46 @@ function Favorites() {
       </button>
       <button
         data-testid="filter-by-meal-btn"
-        onClick={ () => filterRecipes('meal') }
+        onClick={ () => filterRecipes('meals') }
       >
         Meals
       </button>
       <button
         data-testid="filter-by-drink-btn"
-        onClick={ () => filterRecipes('drink') }
+        onClick={ () => filterRecipes('drinks') }
       >
         Drinks
       </button>
-      <div>
-        {filteredRecipes.map((recipe, index) => (
-          <div
-            key={ recipe.id }
-            data-testid={ `${index}-recipe-card` }
-          >
-            <button
-              onClick={ () => handleShareClickDone(recipe.type, recipe.id) }
+      {filteredRecipes.length > 0 && (
+        <div>
+          {filteredRecipes.map((recipe, index) => (
+            <div
+              key={ recipe.id }
+              data-testid={ `${index}-recipe-card` }
             >
-              <img
-                src={ ShareButton }
-                alt="Share Icon"
-                data-testid={ `${index}-horizontal-share-btn` }
-              />
-            </button>
-            <button
-              type="button"
-              onClick={ () => handleFavorite(recipe.id) }
-            >
-              <img
-                data-testid={ `${index}-horizontal-favorite-btn` }
-                src={ blackHeartIcon }
-                alt="Favorite Icon"
-              />
               <button
-                onClick={ () => handleRecipeClick(recipe.type, recipe.id) }
+                onClick={ () => handleShareClickDone(recipe.type, recipe.id) }
+              >
+                <img
+                  src={ ShareButton }
+                  alt="Share Icon"
+                  data-testid={ `${index}-horizontal-share-btn` }
+                />
+              </button>
+              <button
+                type="button"
+                onClick={ () => handleFavorite(recipe.id) }
+              >
+                <img
+                  data-testid={ `${index}-horizontal-favorite-btn` }
+                  src={ blackHeartIcon }
+                  alt="Favorite Icon"
+                />
+              </button>
+              <button
+                onClick={ () => handleRecipeClick(`${recipe.type}s`, recipe.id) }
                 onKeyDown={ (e) => e.key === 'Enter'
-            && handleRecipeClick(recipe.type, recipe.id) }
+            && handleRecipeClick(`${recipe.type}s`, recipe.id) }
               >
                 <h3
                   data-testid={ `${index}-horizontal-name` }
@@ -114,27 +118,26 @@ function Favorites() {
                   {recipe.name}
                 </h3>
               </button>
-
-            </button>
-            <button
-              onClick={ () => handleRecipeClick(recipe.type, recipe.id) }
-              onKeyDown={ (e) => e.key === 'Enter'
-              && handleRecipeClick(recipe.type, recipe.id) }
-            >
-              <img
-                data-testid={ `${index}-horizontal-image` }
-                src={ recipe.image }
-                alt={ recipe.name }
-                width={ 200 }
-              />
-            </button>
-            <p data-testid={ `${index}-horizontal-top-text` }>
-              {recipe.type === 'meal'
-                ? `${recipe.nationality} - ${recipe.category}` : recipe.alcoholicOrNot}
-            </p>
-          </div>
-        ))}
-      </div>
+              <button
+                onClick={ () => handleRecipeClick(`${recipe.type}s`, recipe.id) }
+                onKeyDown={ (e) => e.key === 'Enter'
+              && handleRecipeClick(`${recipe.type}s`, recipe.id) }
+              >
+                <img
+                  data-testid={ `${index}-horizontal-image` }
+                  src={ recipe.image }
+                  alt={ recipe.name }
+                  width={ 200 }
+                />
+              </button>
+              <p data-testid={ `${index}-horizontal-top-text` }>
+                {recipe.type === 'meal'
+                  ? `${recipe.nationality} - ${recipe.category}` : recipe.alcoholicOrNot}
+              </p>
+            </div>
+          ))}
+        </div>
+      )}
       {copyMessage && <div>{copyMessage}</div>}
     </div>
   );
