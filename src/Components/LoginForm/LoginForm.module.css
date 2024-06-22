@@ -1,3 +1,39 @@
-* {
-  margin: 0;
+.form {
+  align-items: center;
+  background-color: rgba(250, 235, 215, 0.438);
+  border: 1px solid black;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 400px;
+  justify-content: center;
+  width: 400px;
+}
+
+.inputs {
+  border: 1px solid black;
+  border-radius: 5px;
+  height: 30px;
+  padding-left: 5px;
+  width: 250px;
+}
+
+.loginBtn {
+  background-color: rgb(15, 216, 92);
+  border: 1px solid black;
+  border-radius: 5px;
+  width: 100px;
+
+  &:disabled {
+    background-color: rgba(15, 216, 92, 0.685);
+  }
+}
+
+@media ( max-width : 600px ) {
+
+  .form {
+    height: 300px;
+    width: 300px;
+  }
 }

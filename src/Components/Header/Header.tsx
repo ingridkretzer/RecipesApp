@@ -114,6 +114,7 @@ function Header() {
             data-testid="profile-top-btn"
             src="src/images/profileIcon.svg"
             alt="Profile icon"
+            className={ styles.headerIcons }
           />
         </button>
         <p data-testid="page-title" className={ styles.headerTitle }>{headerTitle}</p>

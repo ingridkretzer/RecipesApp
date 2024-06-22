@@ -32,7 +32,7 @@ function CategorySection({ handleCategory, categoryOn }: CategorySectionProps) {
     <section className={ styles.categoriesSection }>
       {
         pathname.includes('/meals') ? (
-          <div className={ styles.categoryDivs }>
+          <div className={ styles.categoriesDiv }>
             <button
               data-testid="All-category-filter"
               onClick={ allBtn }
@@ -53,7 +53,7 @@ function CategorySection({ handleCategory, categoryOn }: CategorySectionProps) {
             ))}
           </div>
         ) : (
-          <div className={ styles.categoryDivs }>
+          <div className={ styles.categoriesDiv }>
             <button
               data-testid="All-category-filter"
               onClick={ allBtn }
@@ -67,7 +67,10 @@ function CategorySection({ handleCategory, categoryOn }: CategorySectionProps) {
                 data-testid={ `${category}-category-filter` }
                 onClick={ () => (categoryOn === category
                   ? allBtn() : handleCategory(category)) }
-                className={ styles.categoryBtn }
+                className={
+                  `${styles.categoryBtn} ${category === 'Other/Unknown'
+                    ? styles.other : ''}`
+                 }
               >
                 {category}
               </button>

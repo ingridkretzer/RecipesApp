@@ -1,7 +1,7 @@
 .card {
   border: 1px solid #ccc;
+  height: 320px;
   margin: 16px;
-  min-height: 320px;
   padding: 16px;
   text-align: center;
   width: 250px;
@@ -22,5 +22,13 @@
 .card-link {
   color: black;
   text-decoration: none;
+}
+
+@media ( max-width : 600px ) {
+
+  .card {
+    height: 280px;
+    width: 230px;
+  }
 }
 

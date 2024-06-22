@@ -1,14 +1,21 @@
 .footer {
-  background-color: #41197f;
+  align-items: center;
+  background-color: orangered;
   bottom: 0;
   display: flex;
   height: 50px;
-  justify-content: space-between;
+  justify-content: space-evenly;
   position: fixed;
   width: 100%;
 }
 
 .mealsBtn, .drinksBtn {
-  color: #fcc436;
-  max-height: 50px;
+  width: 40px;
+}
+
+@media ( max-width : 600px ) {
+
+  .mealsBtn, .drinksBtn {
+    width: 30px;
+  }
 }
