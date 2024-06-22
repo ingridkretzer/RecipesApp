@@ -10,7 +10,7 @@ describe('Verifica as funcionalidades do Perfil', () => {
     const profileBtn = screen.getByTestId('profile-done-btn');
     await user.click(profileBtn);
 
-    expect(screen.getByRole('heading', { name: /Done Recipes/i })).toBeInTheDocument();
+    expect(screen.getByTestId('page-title')).toHaveTextContent('Done Recipes');
   });
 
   it('Verifica se ao ser clicado, o botao Favorite Recipes, redireciona para a pagina correta', async () => {

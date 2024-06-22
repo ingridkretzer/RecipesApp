@@ -129,7 +129,7 @@ describe('Verifica as funcionalidades da página de receitas em progresso', () =
 
     await user.click(finishButton);
 
-    const doneRecipes = await screen.findByRole('heading', { level: 1 });
+    const doneRecipes = await screen.findByTestId('page-title');
 
     expect(doneRecipes).toHaveTextContent('Done Recipes');
   });
