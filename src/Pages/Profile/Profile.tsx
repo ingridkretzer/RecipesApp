@@ -2,6 +2,7 @@ import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AppContext from '../../Context/AppContext';
 import profileIcon from '../../images/profileIcon.svg';
+import ReturnToHomeButton from '../../Components/ReturnToHomeButton/ReturnToHomeButton';
 
 function Profile() {
   const { setHeaderTitle } = useContext(AppContext);
@@ -23,6 +24,7 @@ function Profile() {
 
   return (
     <section>
+      <ReturnToHomeButton />
       <img src={ profileIcon } alt="Icone do Perfil" />
       <h1>
         Profile

@@ -11,6 +11,7 @@ import { isRecipeInProgress } from './continueRecipeUtil';
 import { shareRecipe } from './shareAndFavorite';
 import shareIcon from '../../images/shareIcon.svg';
 import FavoriteButton from './HeartButton';
+import ReturnToHomeButton from '../../Components/ReturnToHomeButton/ReturnToHomeButton';
 
 function RecipeDetails() {
   const { id } = useParams<{ id: string }>();
@@ -75,6 +76,7 @@ function RecipeDetails() {
 
   return (
     <div className="recipe-details">
+      <ReturnToHomeButton />
       {recipe && (
         <>
           <img

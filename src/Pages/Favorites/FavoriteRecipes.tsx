@@ -4,6 +4,7 @@ import useLocalStorage from '../../Hooks/useLocalStorage';
 import ShareButton from '../../images/shareIcon.svg';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import AppContext from '../../Context/AppContext';
+import ReturnToHomeButton from '../../Components/ReturnToHomeButton/ReturnToHomeButton';
 
 type Recipe = {
   image: string;
@@ -63,6 +64,7 @@ function Favorites() {
   return (
     <div>
       <h1>Favorite Recipes</h1>
+      <ReturnToHomeButton />
       <button
         data-testid="filter-by-all-btn"
         onClick={ () => filterRecipes('all') }

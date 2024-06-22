@@ -6,6 +6,7 @@ import shareIcon from '../../images/shareIcon.svg';
 import favoriteIcon from '../../images/whiteHeartIcon.svg';
 import favoritedIcon from '../../images/blackHeartIcon.svg';
 import styles from './RecipeInProgress.module.css';
+import ReturnToHomeButton from '../../Components/ReturnToHomeButton/ReturnToHomeButton';
 
 function RecipeInProgress() {
   const navigate = useNavigate();
@@ -156,6 +157,7 @@ function RecipeInProgress() {
 
   return (
     <div className={ styles.inProgressPage }>
+      <ReturnToHomeButton />
       {recipe && (
         <>
           <img

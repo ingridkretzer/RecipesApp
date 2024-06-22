@@ -35,6 +35,7 @@ describe('Verifica as funcionalidades da página de receitas favoritas', () => {
   const LINK_COPIED = 'Link copied!';
   const PATH_MEALS_52771 = '/meals/52771';
   const PATH_DRINKS_178319 = '/drinks/178319';
+  const PATH_MEALS = '/meals';
   const ENTER_KEY = { key: 'Enter', code: 'Enter' };
 
   beforeEach(() => {
@@ -172,6 +173,13 @@ describe('Verifica as funcionalidades da página de receitas favoritas', () => {
 
     await waitFor(() => {
       expect(window.location.pathname).toBe(PATH_DRINKS_178319);
+    });
+  });
+  it('deve redirecionar para a tela de meals ao clicar no botão return to home', async () => {
+    const returnToHomeButton = screen.getByTestId('return-to-home-btn');
+    fireEvent.click(returnToHomeButton);
+    await waitFor(() => {
+      expect(window.location.pathname).toBe(PATH_MEALS);
     });
   });
 });
