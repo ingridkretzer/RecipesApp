@@ -99,6 +99,13 @@ describe('Verifica a página Done Recipes', () => {
     await user.click(firstItemLink);
     await waitFor(() => expect(global.location.pathname).toBe('/meals/53069'));
   });
+  test('Verifica se navega para a página de detalhes ao clicar na imagem', async () => {
+    const { user } = renderWithRouter(<AppProvider><App /></AppProvider>, { route: doneRecipesRoute });
+    const imageBtn = screen.getByTestId('0-horizontal-image');
+
+    await user.click(imageBtn);
+    await waitFor(() => expect(global.location.pathname).toBe('/meals/53069'));
+  });
   test('Verifica o retorno do localStorage', () => {
     renderWithRouter(<AppProvider><App /></AppProvider>, { route: doneRecipesRoute });
 
