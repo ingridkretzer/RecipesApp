@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import AppContext from '../../Context/AppContext';
 import profileIcon from '../../images/profileIcon.svg';
 import ReturnToHomeButton from '../../Components/ReturnToHomeButton/ReturnToHomeButton';
+import styles from './Profile.module.css';
 
 function Profile() {
   const { setHeaderTitle } = useContext(AppContext);
@@ -23,35 +24,41 @@ function Profile() {
   };
 
   return (
-    <section>
+    <section className={ styles.profilePage }>
       <ReturnToHomeButton />
-      <img src={ profileIcon } alt="Icone do Perfil" />
-      <h1>
-        Profile
-      </h1>
-      <h2 data-testid="profile-email">
-        {getEmailFromLocalStorage()}
-      </h2>
-      <button
-        data-testid="profile-done-btn"
-        onClick={ () => navigate('/done-recipes') }
-      >
-        Done Recipes
-      </button>
-      <br />
-      <button
-        data-testid="profile-favorite-btn"
-        onClick={ () => navigate('/favorite-recipes') }
-      >
-        Favorite Recipes
-      </button>
-      <br />
-      <button
-        data-testid="profile-logout-btn"
-        onClick={ () => logoutBtn() }
-      >
-        Logout
-      </button>
+      <div className={ styles.infoDiv }>
+        <h1>
+          Profile
+        </h1>
+        <h2 data-testid="profile-email">
+          {getEmailFromLocalStorage()}
+        </h2>
+      </div>
+      <div className={ styles.btnsDiv }>
+        <button
+          className={ styles.buttons }
+          data-testid="profile-done-btn"
+          onClick={ () => navigate('/done-recipes') }
+        >
+          Done Recipes
+        </button>
+        <br />
+        <button
+          className={ styles.buttons }
+          data-testid="profile-favorite-btn"
+          onClick={ () => navigate('/favorite-recipes') }
+        >
+          Favorite Recipes
+        </button>
+        <br />
+        <button
+          className={ styles.buttons }
+          data-testid="profile-logout-btn"
+          onClick={ () => logoutBtn() }
+        >
+          Logout
+        </button>
+      </div>
     </section>
   );
 }

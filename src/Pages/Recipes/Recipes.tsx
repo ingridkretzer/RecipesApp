@@ -29,16 +29,16 @@ function Recipes() {
   }, [pathname, setDrinks, setHeaderTitle, setMeals]);
 
   return (
-    <section>
+    <section
+      className={ pathname.includes('meals') ? styles.mealsPage : styles.drinksPage }
+    >
       {pathname === '/meals' && (
         <section className={ styles.recipesPage }>
-          <h1>Meals</h1>
           <MealsReceps />
         </section>
       )}
       {pathname === '/drinks' && (
         <section className={ styles.recipesPage }>
-          <h1>Drinks</h1>
           <DrinksReceps />
         </section>
       )}

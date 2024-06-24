@@ -34,7 +34,7 @@ describe('Verifica as funcionalidades do form de login', () => {
     expect(enterBtn).not.toBeDisabled();
     await user.click(enterBtn);
 
-    const heading1 = screen.getByRole('heading', { level: 1 });
-    expect(heading1).toHaveTextContent('Meals');
+    const meals = screen.getByTestId('page-title');
+    expect(meals).toHaveTextContent('Meals');
   });
 });

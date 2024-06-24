@@ -1,4 +1,4 @@
-import { screen, waitFor, waitForElementToBeRemoved } from '@testing-library/dom';
+import { screen, waitFor, waitForElementToBeRemoved, fireEvent } from '@testing-library/dom';
 import App from '../App';
 import AppProvider from '../Context/AppProvider';
 import { renderWithRouter } from '../Utils/renderWithRouter';
@@ -57,5 +57,16 @@ describe('Verifica a tela de detalhes', () => {
 
     const notFoundD = await screen.findByText('Failed to fetch recipe details.');
     expect(notFoundD).toBeVisible();
+  });
+  test('deve copiar o link da receita ao clicar no botão de compartilhar', async () => {
+    renderWithRouter(<AppProvider><App /></AppProvider>, { route: '/meals/52771' });
+
+    const shareButton = await screen.findByTestId('share-btn');
+
+    fireEvent.click(shareButton);
+
+    await waitFor(() => {
+      expect(screen.getByText('Link copied!')).toBeInTheDocument();
+    });
   });
 });

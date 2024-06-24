@@ -7,9 +7,10 @@ import { Recipe } from './recipeUtils';
 interface FavoriteButtonProps {
   recipe: Recipe;
   type: 'meals' | 'drinks';
+  className: any;
 }
 
-function FavoriteButton({ recipe, type }: FavoriteButtonProps) {
+function FavoriteButton({ recipe, type, className }: FavoriteButtonProps) {
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
 
   useEffect(() => {
@@ -22,7 +23,10 @@ function FavoriteButton({ recipe, type }: FavoriteButtonProps) {
   };
 
   return (
-    <button onClick={ handleFavoriteToggle }>
+    <button
+      className={ className }
+      onClick={ handleFavoriteToggle }
+    >
       <img
         src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
         alt="favorite icon"

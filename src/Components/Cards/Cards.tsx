@@ -19,7 +19,9 @@ function RecipeCard({ item, index }: RecipeCardProps) {
   return (
     <Link className="card-link" to={ `/${url}/${id}` }>
       <div className="card" data-testid={ `${index}-recipe-card` }>
-        <h3 data-testid={ `${index}-card-name` }>{title}</h3>
+        <div className="name-div">
+          <h3 data-testid={ `${index}-card-name` }>{title}</h3>
+        </div>
         <img src={ thumb } alt={ title } data-testid={ `${index}-card-img` } />
       </div>
     </Link>

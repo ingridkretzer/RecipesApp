@@ -75,29 +75,38 @@ function RecipeDetails() {
   const buttonText = isInProgress ? 'Continue Recipe' : 'Start Recipe';
 
   return (
-    <div className="recipe-details">
+    <div className={ styles.detailsPage }>
       <ReturnToHomeButton />
       {recipe && (
         <>
-          <img
-            className={ styles.recipeImage }
-            src={ recipe.image }
-            alt={ recipe.name }
-            data-testid="recipe-photo"
-          />
-          <h1 data-testid="recipe-title">{recipe.name}</h1>
-          <p data-testid="recipe-category">
-            {location.pathname.includes('/meals/') ? recipe.category : recipe.alcoholic}
-          </p>
-          <button
-            type="button"
-            data-testid="share-btn"
-            onClick={ handleShareClick }
-          >
-            <img src={ shareIcon } alt="Share Icon" />
-          </button>
-          {linkCopied && <p>Link copied!</p>}
-          <FavoriteButton recipe={ recipe! } type={ type } />
+          <div className={ styles.infoDiv }>
+            <img
+              className={ styles.recipeImage }
+              src={ recipe.image }
+              alt={ recipe.name }
+              data-testid="recipe-photo"
+            />
+            <h1 data-testid="recipe-title">{recipe.name}</h1>
+            <p data-testid="recipe-category">
+              {location.pathname.includes('/meals/') ? recipe.category : recipe.alcoholic}
+            </p>
+            <div className={ styles.favAndSharBtnsDiv }>
+              <button
+                className={ styles.shareBtn }
+                type="button"
+                data-testid="share-btn"
+                onClick={ handleShareClick }
+              >
+                <img src={ shareIcon } alt="Share Icon" />
+              </button>
+              <FavoriteButton
+                className={ styles.favBtn }
+                recipe={ recipe! }
+                type={ type }
+              />
+            </div>
+            {linkCopied && <p>Link copied!</p>}
+          </div>
           <h2>Ingredients</h2>
           <ul>
             {recipe.ingredients.map((ingredient, index) => (
@@ -115,6 +124,7 @@ function RecipeDetails() {
             <div>
               <h2>Video</h2>
               <iframe
+                className={ styles.video }
                 data-testid="video"
                 width="560"
                 height="315"
@@ -127,7 +137,7 @@ function RecipeDetails() {
             </div>
           )}
           <h2>Recommendations</h2>
-          <div className="recommendations">
+          <div className={ styles.recommendations }>
             {recommendations.map((rec, index) => (
               <div key={ index } data-testid={ `${index}-recommendation-card` }>
                 <img
@@ -141,7 +151,7 @@ function RecipeDetails() {
             ))}
           </div>
           <button
-            style={ { position: 'fixed', bottom: '0', width: '100%' } }
+            className={ styles.startBtn }
             data-testid="start-recipe-btn"
             onClick={ handleStartRecipeClick }
           >

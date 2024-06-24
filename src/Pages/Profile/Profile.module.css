@@ -1,0 +1,20 @@
+.profilePage {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.infoDiv {
+  margin-top: 30px;
+}
+
+.btnsDiv {
+  display: flex;
+  gap: 5px;
+  margin-top: 30px;
+}
+
+.buttons {
+  border: 1px solid black;
+  border-radius: 5px;
+}
