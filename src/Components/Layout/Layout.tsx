@@ -8,11 +8,17 @@ import AppContext from '../../Context/AppContext';
 function Layout() {
   const [header, setHeader] = useState(false);
   const [footer, setFooter] = useState(false);
+  const [layoutClass, setLayoutClass] = useState(styles.layout);
   const { url } = useContext(AppContext);
 
   useEffect(() => {
     setHeader(headerOn.some((param) => param === url));
     setFooter(footerOn.some((param) => param === url));
+    if (url === '/meals' || url === '/drinks') {
+      setLayoutClass(styles.layout);
+    } else {
+      setLayoutClass(styles.layout2);
+    }
   }, [url]);
 
   const headerOn = [
@@ -29,7 +35,7 @@ function Layout() {
 
   return (
     // footer e header renderizados condicionalmente
-    <div className={ styles.layout }>
+    <div className={ layoutClass }>
       {header && <Header />}
       <main className={ styles.main }>
         <Outlet />

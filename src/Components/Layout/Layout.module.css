@@ -1,6 +1,18 @@
 .layout {
-  background-color: rgb(189, 113, 0);
+  background-color: white;
   display: grid;
-  grid-template-rows: 20% 70% 10%;
+  grid-template-rows: 20% 75% 5%;
   height: 100vh;
+}
+
+.layout2 {
+  background-color: white;
+  display: grid;
+  grid-template-rows: 5% 95%;
+  height: 100vh;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
 }

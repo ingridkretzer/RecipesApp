@@ -1,9 +1,21 @@
 .recipesPage {
   align-items: center;
-  background-color: rgb(189, 113, 0);
+  background-color: white;
   display: flex;
   flex-direction: column;
   height: 100%;
-  justify-content: center;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.mealsPage {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.drinksPage {
+  display: flex;
+  height: 100%;
   width: 100%;
 }

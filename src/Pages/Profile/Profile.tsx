@@ -1,16 +1,17 @@
 import { useContext, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import AppContext from '../../Context/AppContext';
-import profileIcon from '../../images/profileIcon.svg';
 import ReturnToHomeButton from '../../Components/ReturnToHomeButton/ReturnToHomeButton';
 import styles from './Profile.module.css';
 
 function Profile() {
-  const { setHeaderTitle } = useContext(AppContext);
+  const { setHeaderTitle, setUrl } = useContext(AppContext);
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   useEffect(() => {
     setHeaderTitle('Profile');
+    setUrl(pathname);
   }, []);
 
   const logoutBtn = () => {
