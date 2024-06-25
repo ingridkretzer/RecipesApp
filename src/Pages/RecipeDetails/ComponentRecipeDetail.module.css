@@ -46,7 +46,8 @@
 }
 
 .recRecipesImg {
-  width: 250px;
+  margin: 6px;
+  width: 240px;
 }
 
 
@@ -79,7 +80,8 @@
   }
 
   .recRecipesImg {
-    width: 150px;
+    margin: 6px;
+    width: 140px;
   }
 
   .video {
