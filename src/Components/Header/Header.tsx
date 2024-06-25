@@ -33,6 +33,7 @@ function Header() {
   const setRecipe = pathname.includes('meals') ? setMeals : setDrinks;
   const [headerClass, setHeaderClass] = useState(styles.header);
   const [titleClass, setTitleClass] = useState(styles.headerTitle);
+  const [headerTopClass, setHeaderTopClass] = useState(styles.headerTop);
 
   useEffect(() => {
     const isTrue = headerTitle === 'Meals' || headerTitle === 'Drinks';
@@ -40,9 +41,11 @@ function Header() {
     if (pathname === '/meals' || pathname === '/drinks') {
       setHeaderClass(styles.header);
       setTitleClass(styles.headerTitle);
+      setHeaderTopClass(styles.headerTop);
     } else {
       setHeaderClass(styles.header2);
       setTitleClass(styles.headerTitle2);
+      setHeaderTopClass(styles.headerTop2);
     }
   }, [headerTitle, pathname]);
 

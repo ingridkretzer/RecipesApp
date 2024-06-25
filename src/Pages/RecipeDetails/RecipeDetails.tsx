@@ -12,6 +12,7 @@ import { shareRecipe } from './shareAndFavorite';
 import shareIcon from '../../images/shareIcon.svg';
 import FavoriteButton from './HeartButton';
 import ReturnToHomeButton from '../../Components/ReturnToHomeButton/ReturnToHomeButton';
+import Loading from '../../Components/Loading/Loading';
 
 function RecipeDetails() {
   const { id } = useParams<{ id: string }>();
@@ -67,7 +68,7 @@ function RecipeDetails() {
     setTimeout(() => setLinkCopied(false), 3000);
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loading />;
   if (error) return <p>{error}</p>;
 
   const type = location.pathname.includes('/meals/') ? 'meals' : 'drinks';
@@ -146,7 +147,7 @@ function RecipeDetails() {
                   alt={ rec.name }
                   data-testid={ `${index}-recommendation-photo` }
                 />
-                <p data-testid={ `${index}-recommendation-title` }>{rec.name}</p>
+                <p data-testid={ `${index}-recommendation-title` }>{rec.title}</p>
               </div>
             ))}
           </div>

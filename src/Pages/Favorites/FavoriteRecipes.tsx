@@ -5,6 +5,7 @@ import ShareButton from '../../images/shareIcon.svg';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import AppContext from '../../Context/AppContext';
 import ReturnToHomeButton from '../../Components/ReturnToHomeButton/ReturnToHomeButton';
+import styles from './FavoriteRecipes.module.css';
 
 type Recipe = {
   image: string;
@@ -62,70 +63,48 @@ function Favorites() {
   }
 
   return (
-    <div>
-      <h1>Favorite Recipes</h1>
+    <section className={ styles.favoritesPage }>
       <ReturnToHomeButton />
-      <button
-        data-testid="filter-by-all-btn"
-        onClick={ () => filterRecipes('all') }
-      >
-        All
-      </button>
-      <button
-        data-testid="filter-by-meal-btn"
-        onClick={ () => filterRecipes('meals') }
-      >
-        Meals
-      </button>
-      <button
-        data-testid="filter-by-drink-btn"
-        onClick={ () => filterRecipes('drinks') }
-      >
-        Drinks
-      </button>
+      <div className={ styles.topBtnsDiv }>
+        <button
+          className={ styles.topBtns }
+          data-testid="filter-by-all-btn"
+          onClick={ () => filterRecipes('all') }
+        >
+          All
+        </button>
+        <button
+          className={ styles.topBtns }
+          data-testid="filter-by-meal-btn"
+          onClick={ () => filterRecipes('meals') }
+        >
+          Meals
+        </button>
+        <button
+          className={ styles.topBtns }
+          data-testid="filter-by-drink-btn"
+          onClick={ () => filterRecipes('drinks') }
+        >
+          Drinks
+        </button>
+      </div>
       {filteredRecipes.length > 0 && (
-        <div>
+        <div className={ styles.favRecipesDiv }>
           {filteredRecipes.map((recipe, index) => (
             <div
+              className={ styles.favCard }
               key={ recipe.id }
               data-testid={ `${index}-recipe-card` }
             >
+
               <button
-                onClick={ () => handleShareClickDone(recipe.type, recipe.id) }
-              >
-                <img
-                  src={ ShareButton }
-                  alt="Share Icon"
-                  data-testid={ `${index}-horizontal-share-btn` }
-                />
-              </button>
-              <button
-                type="button"
-                onClick={ () => handleFavorite(recipe.id) }
-              >
-                <img
-                  data-testid={ `${index}-horizontal-favorite-btn` }
-                  src={ blackHeartIcon }
-                  alt="Favorite Icon"
-                />
-              </button>
-              <button
-                onClick={ () => handleRecipeClick(`${recipe.type}s`, recipe.id) }
-                onKeyDown={ (e) => e.key === 'Enter'
-            && handleRecipeClick(`${recipe.type}s`, recipe.id) }
-              >
-                <h3
-                  data-testid={ `${index}-horizontal-name` }
-                >
-                  {recipe.name}
-                </h3>
-              </button>
-              <button
+                className={ styles.imageBtn }
                 onClick={ () => handleRecipeClick(`${recipe.type}s`, recipe.id) }
                 onKeyDown={ (e) => e.key === 'Enter'
               && handleRecipeClick(`${recipe.type}s`, recipe.id) }
               >
                 <img
+                  className={ styles.img }
                   data-testid={ `${index}-horizontal-image` }
                   src={ recipe.image }
                   alt={ recipe.name }
@@ -136,12 +115,48 @@ function Favorites() {
                 {recipe.type === 'meal'
                   ? `${recipe.nationality} - ${recipe.category}` : recipe.alcoholicOrNot}
               </p>
+              <button
+                className={ `${styles.nameBtn} ${styles.cardBtns}` }
+                onClick={ () => handleRecipeClick(`${recipe.type}s`, recipe.id) }
+                onKeyDown={ (e) => e.key === 'Enter'
+            && handleRecipeClick(`${recipe.type}s`, recipe.id) }
+              >
+                <h3
+                  data-testid={ `${index}-horizontal-name` }
+                >
+                  {recipe.name}
+                </h3>
+              </button>
+              <div className={ styles.cardBtnsDiv }>
+                <button
+                  className={ styles.cardBottomBtns }
+                  onClick={ () => handleShareClickDone(recipe.type, recipe.id) }
+                >
+                  <img
+                    src={ ShareButton }
+                    alt="Share Icon"
+                    data-testid={ `${index}-horizontal-share-btn` }
+                  />
+                </button>
+                <button
+                  className={ styles.cardBottomBtns }
+                  type="button"
+                  onClick={ () => handleFavorite(recipe.id) }
+                >
+                  <img
+                    data-testid={ `${index}-horizontal-favorite-btn` }
+                    src={ blackHeartIcon }
+                    alt="Favorite Icon"
+                  />
+                </button>
+              </div>
+
             </div>
           ))}
         </div>
       )}
       {copyMessage && <div>{copyMessage}</div>}
-    </div>
+    </section>
   );
 }
 

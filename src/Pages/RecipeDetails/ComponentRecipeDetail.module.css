@@ -40,10 +40,8 @@
 
 .recommendations {
   display: flex;
-  height: 250px;
-  margin-bottom: 50px;
+  margin-bottom: 80px;
   overflow-x: scroll;
-  overflow-y: hidden;
   width: 500px;
 }
 
@@ -89,7 +87,6 @@
   }
 
   .recommendations {
-    height: 150px;
     width: 300px;
   }
 }

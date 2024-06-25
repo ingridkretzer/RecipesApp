@@ -16,6 +16,8 @@ function Layout() {
     setFooter(footerOn.some((param) => param === url));
     if (url === '/meals' || url === '/drinks') {
       setLayoutClass(styles.layout);
+    } else if (url === '/profile') {
+      setLayoutClass(styles.layout3);
     } else {
       setLayoutClass(styles.layout2);
     }

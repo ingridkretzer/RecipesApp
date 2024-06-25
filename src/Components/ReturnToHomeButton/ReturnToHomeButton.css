@@ -11,3 +11,15 @@
   top: 0;
   width: 50px;
 }
+
+@media ( max-width : 600px ) {
+
+  .container {
+    height: 30px;
+  }
+
+  /* .icon {
+    height: 30px;
+    width: 30px;
+  } */
+}

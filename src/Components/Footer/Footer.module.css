@@ -1,8 +1,10 @@
 .footer {
   align-items: center;
   background-color: rgb(192, 54, 4);
+  bottom: 0;
   display: flex;
   justify-content: space-evenly;
+  position: fixed;
   width: 100%;
 }
 

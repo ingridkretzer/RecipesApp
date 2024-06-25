@@ -1,0 +1,10 @@
+.loagingPage {
+  align-items: center;
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.loading {
+  font-size: 50px;
+}

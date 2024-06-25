@@ -1,4 +1,5 @@
-.donePage {
+.favoritesPage {
+  align-items: center;
   background-color: rgba(255, 217, 0, 0.336);
   display: flex;
   flex-direction: column;
@@ -9,7 +10,6 @@
 .topBtnsDiv {
   display: flex;
   gap: 10px;
-  justify-content: center;
 }
 
 .topBtns {
@@ -19,14 +19,14 @@
   width: 100px;
 }
 
-.doneRecipes {
+.favRecipesDiv {
   display: flex;
   gap: 20px;
   overflow: auto;
   padding-bottom: 20px;
 }
 
-.doneCards {
+.favCard {
   align-items: center;
   background-color: rgba(204, 252, 182, 0.342);
   border: 1px solid black;
@@ -39,41 +39,43 @@
   width: 300px;
 }
 
-.image {
+.nameBtn {
+  background: none;
   border: none;
-  border-radius: 5px;
 }
 
-.tags {
+.cardBtnsDiv {
   display: flex;
   gap: 5px;
 }
 
-.shareBtn {
+.cardBottomBtns {
   border: 1px solid black;
+  border-radius: 5px;
+}
+
+
+.imageBtn {
+  background: none;
+  border: none;
+}
+
+.img {
+  border: none;
   border-radius: 5px;
 }
 
 @media ( max-width : 600px ) {
 
-  .doneRecipes {
-    align-items: center;
+  .favRecipesDiv {
     flex-direction: column;
-    height: 100%;
-    justify-content: flex-start;
+  }
+
+  .favCard {
+    width: 280px;
   }
 
   .topBtns {
     width: 80px;
-  }
-
-  .doneCards {
-    gap: 3px;
-    width: 280px;
-  }
-
-  .image {
-    border: none;
-    border-radius: 5px;
   }
 }

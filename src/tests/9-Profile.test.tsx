@@ -19,7 +19,7 @@ describe('Verifica as funcionalidades do Perfil', () => {
     const profileBtn = screen.getByTestId('profile-favorite-btn');
     await user.click(profileBtn);
 
-    expect(screen.getByRole('heading', { name: /Favorite Recipes/i })).toBeInTheDocument();
+    expect(screen.getByTestId('page-title')).toHaveTextContent('Favorite Recipes');
   });
 
   it('Verifica se ao ser clicado, o botao Logout, redireciona para a pagina correta', async () => {
