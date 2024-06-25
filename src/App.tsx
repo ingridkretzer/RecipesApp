@@ -15,14 +15,14 @@ function App() {
       <Route path="/" element={ <Login /> } />
       <Route path="/meals" element={ <Layout /> }>
         <Route index element={ <Recipes /> } />
-        <Route path="/meals/:id" element={ <RecipeDetails /> } />
-        <Route path="/meals/:id/in-progress" element={ <RecipeInProgress /> } />
       </Route>
+      <Route path="/meals/:id/in-progress" element={ <RecipeInProgress /> } />
+      <Route path="/meals/:id" element={ <RecipeDetails /> } />
+      <Route path="/drinks/:id" element={ <RecipeDetails /> } />
       <Route path="/drinks" element={ <Layout /> }>
         <Route index element={ <Recipes /> } />
-        <Route path="/drinks/:id" element={ <RecipeDetails /> } />
-        <Route path="/drinks/:id/in-progress" element={ <RecipeInProgress /> } />
       </Route>
+      <Route path="/drinks/:id/in-progress" element={ <RecipeInProgress /> } />
       <Route path="/profile" element={ <Layout /> }>
         <Route index element={ <Profile /> } />
       </Route>

@@ -38,28 +38,30 @@ function LoginForm() {
     <form className={ styles.form }>
       <h1>Login</h1>
       <div>
-        <label htmlFor="email">Email</label>
-        <input
-          data-testid="email-input"
-          className={ styles.inputs }
-          onChange={ handleChange }
-          value={ loginInfos.email }
-          name="email"
-          type="email"
-          placeholder="E-mail"
-        />
+        <label htmlFor="email">
+          <input
+            data-testid="email-input"
+            className={ styles.inputs }
+            onChange={ handleChange }
+            value={ loginInfos.email }
+            name="email"
+            type="email"
+            placeholder="E-mail"
+          />
+        </label>
       </div>
       <div>
-        <label htmlFor="password">Senha</label>
-        <input
-          data-testid="password-input"
-          className={ styles.inputs }
-          name="password"
-          onChange={ handleChange }
-          value={ loginInfos.password }
-          type="password"
-          placeholder="Senha (min 7 caracteres)"
-        />
+        <label htmlFor="password">
+          <input
+            data-testid="password-input"
+            className={ styles.inputs }
+            name="password"
+            onChange={ handleChange }
+            value={ loginInfos.password }
+            type="password"
+            placeholder="Senha (min 7 caracteres)"
+          />
+        </label>
       </div>
       <div>
         <button

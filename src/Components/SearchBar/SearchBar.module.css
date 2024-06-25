@@ -2,10 +2,72 @@
   align-items: center;
   display: flex;
   flex-direction: column;
+  gap: 20px;
   justify-content: center;
   width: 100%;
 }
 
 .radiosDiv {
   display: flex;
+  gap: 20px;
+}
+
+.radioLabel {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.radioInput {
+  margin-left: 10px;
+}
+
+.searchInputDiv {
+  margin-top: 15px;
+}
+
+.searchInput {
+  border: 1px solid black;
+  border-radius: 5px;
+  height: 30px;
+  padding-left: 5px;
+}
+
+.searchBtn {
+  background-color: brown;
+  border: 1px solid black;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  font-weight: 700;
+  height: 30px;
+  width: 150px;
+
+  &:active {
+    background-color: rgba(165, 42, 42, 0.747);
+  }
+}
+
+@media ( max-width : 600px ) {
+
+  .searchForm {
+    gap: 7px;
+  }
+
+  .searchInputDiv {
+    margin-top: 5px;
+  }
+
+  .searchInput {
+    height: 25px;
+    width: 250px;
+  }
+
+  .radioLabel {
+    font-size: 15px;
+  }
+
+  .searchBtn {
+    height: 25px;
+    width: 100px;
+  }
 }

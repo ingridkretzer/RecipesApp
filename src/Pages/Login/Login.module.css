@@ -1,3 +1,9 @@
-* {
-  margin: 0;
+.loginPage {
+  align-items: center;
+  background-image: url('/src/images/foods.jpg');
+  background-size: cover;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  width: 100vw;
 }

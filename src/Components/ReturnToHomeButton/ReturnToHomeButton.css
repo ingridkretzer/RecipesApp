@@ -1,11 +1,25 @@
 .container {
   align-items: center;
   background-color: brown;
-  border-radius: 0;
+  border: solid 1px black;
+  border-radius: 10px;
   display: flex;
   height: 50px;
   justify-content: center;
   position: fixed;
   right: 0;
+  top: 0;
   width: 50px;
+}
+
+@media ( max-width : 600px ) {
+
+  .container {
+    height: 30px;
+  }
+
+  /* .icon {
+    height: 30px;
+    width: 30px;
+  } */
 }

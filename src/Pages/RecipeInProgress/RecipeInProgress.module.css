@@ -1,9 +1,65 @@
+.inProgressPage {
+  background-color: rgb(255, 247, 179);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 0 20px;
+  padding-top: 30px;
+  width: 100%;
+}
+
+.image {
+  border-radius: 10px;
+  width: 400px;
+}
+
+.infoDiv {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.btnsDiv {
+  display: flex;
+  gap: 2px;
+}
+
+.topBtns {
+  border: solid black 1px;
+  border-radius: 5px;
+}
+
+.finishBtn {
+  align-items: center;
+  align-self: center;
+  background-color: #ef4223;
+  border: 1px solid black;
+  bottom: 0;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  font-size: 16px;
+  height: 35px;
+  justify-content: center;
+  position: fixed;
+  text-align: center;
+  width: 100%;
+  z-index: 1000;
+
+  &:disabled {
+    background-color: #ef4123b4;
+    color: rgba(255, 255, 255, 0.637);
+  }
+}
+
 @media ( max-width : 600px ) {
 
   .inProgressPage {
     display: flex;
     flex-direction: column;
     height: 100%;
+    margin-bottom: 35px;
   }
 
   .image {

@@ -160,13 +160,40 @@ function RecipeInProgress() {
       <ReturnToHomeButton />
       {recipe && (
         <>
-          <img
-            className={ styles.image }
-            src={ recipe.strMealThumb || recipe.strDrinkThumb }
-            alt="Recipe"
-            data-testid="recipe-photo"
-          />
-          <h1 data-testid="recipe-title">{recipe.strMeal || recipe.strDrink}</h1>
+          <div className={ styles.infoDiv }>
+            <img
+              className={ styles.image }
+              src={ recipe.strMealThumb || recipe.strDrinkThumb }
+              alt="Recipe"
+              data-testid="recipe-photo"
+            />
+            <h1 data-testid="recipe-title">{recipe.strMeal || recipe.strDrink}</h1>
+            <div className={ styles.btnsDiv }>
+              <button
+                className={ styles.topBtns }
+                type="button"
+                onClick={ handleShare }
+              >
+                <img
+                  src={ shareIcon }
+                  alt="Share"
+                  data-testid="share-btn"
+                />
+              </button>
+              <button
+                className={ styles.topBtns }
+                type="button"
+                onClick={ handleFavorite }
+              >
+                <img
+                  src={ isFavorited ? favoritedIcon : favoriteIcon }
+                  alt="Favorite"
+                  data-testid="favorite-btn"
+                />
+              </button>
+            </div>
+            {message && <p>{message}</p>}
+          </div>
           <h2 data-testid="recipe-category">
             {recipe.strCategory}
             {recipe.strAlcoholic ? ` - ${recipe.strAlcoholic}` : ''}
@@ -194,26 +221,7 @@ function RecipeInProgress() {
           </ul>
           <p data-testid="instructions">{recipe.strInstructions}</p>
           <button
-            type="button"
-            onClick={ handleShare }
-          >
-            <img
-              src={ shareIcon }
-              alt="Share"
-              data-testid="share-btn"
-            />
-          </button>
-          <button
-            type="button"
-            onClick={ handleFavorite }
-          >
-            <img
-              src={ isFavorited ? favoritedIcon : favoriteIcon }
-              alt="Favorite"
-              data-testid="favorite-btn"
-            />
-          </button>
-          <button
+            className={ styles.finishBtn }
             type="button"
             data-testid="finish-recipe-btn"
             disabled={ ingredients.length !== checkedIngredients.length }
@@ -221,7 +229,6 @@ function RecipeInProgress() {
           >
             Finish Recipe
           </button>
-          {message && <p>{message}</p>}
         </>
       )}
     </div>

@@ -19,7 +19,7 @@ function SearchBar(
 ) {
   return (
     <form className={ styles.searchForm }>
-      <div>
+      <div className={ styles.searchInputDiv }>
         <label htmlFor="search-input">
           <input
             data-testid="search-input"

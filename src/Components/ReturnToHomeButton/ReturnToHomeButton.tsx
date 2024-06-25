@@ -14,7 +14,7 @@ export default function ReturnToHomeButton() {
       onClick={ handleClick }
       data-testid="return-to-home-btn"
     >
-      <FaHome size={ 30 } />
+      <FaHome className="icon" size={ 30 } />
     </button>
 
   );

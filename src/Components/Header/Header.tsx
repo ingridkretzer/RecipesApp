@@ -31,11 +31,23 @@ function Header() {
   const [searchIcon, setSearchIcon] = useState(false);
   const idType = pathname.includes('meals') ? 'idMeal' : 'idDrink';
   const setRecipe = pathname.includes('meals') ? setMeals : setDrinks;
+  const [headerClass, setHeaderClass] = useState(styles.header);
+  const [titleClass, setTitleClass] = useState(styles.headerTitle);
+  const [headerTopClass, setHeaderTopClass] = useState(styles.headerTop);
 
   useEffect(() => {
     const isTrue = headerTitle === 'Meals' || headerTitle === 'Drinks';
     setSearchIcon(isTrue);
-  }, [headerTitle]);
+    if (pathname === '/meals' || pathname === '/drinks') {
+      setHeaderClass(styles.header);
+      setTitleClass(styles.headerTitle);
+      setHeaderTopClass(styles.headerTop);
+    } else {
+      setHeaderClass(styles.header2);
+      setTitleClass(styles.headerTitle2);
+      setHeaderTopClass(styles.headerTop2);
+    }
+  }, [headerTitle, pathname]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormInputs((prev) => (
@@ -104,19 +116,20 @@ function Header() {
   };
 
   return (
-    <header className={ styles.header }>
+    <header className={ headerClass }>
       <div className={ styles.headerTop }>
         <button
-          className={ styles.topBtn }
+          className={ `${styles.topBtn} ${styles.profileBtn}` }
           onClick={ handleProfile }
         >
           <img
             data-testid="profile-top-btn"
             src="src/images/profileIcon.svg"
             alt="Profile icon"
+            className={ styles.headerIcons }
           />
         </button>
-        <p data-testid="page-title" className={ styles.headerTitle }>{headerTitle}</p>
+        <p data-testid="page-title" className={ titleClass }>{headerTitle}</p>
         {(pathname === '/meals' || pathname === '/drinks') && (
           searchIcon && (
             <button

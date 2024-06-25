@@ -1,6 +1,7 @@
 import { useContext, useEffect } from 'react';
 import AppContext from '../../Context/AppContext';
 import { useDoneRecipes, Recipe } from '../../Hooks/useDoneRecipes';
+import styles from './DoneRecipes.module.css';
 
 function DoneRecipes() {
   const { setHeaderTitle, setUrl } = useContext(AppContext);
@@ -18,28 +19,34 @@ function DoneRecipes() {
   } = useDoneRecipes();
 
   return (
-    <div>
-      <button
-        data-testid="filter-by-all-btn"
-        onClick={ () => filterRecipes('all') }
-      >
-        All
-      </button>
-      <button
-        data-testid="filter-by-meal-btn"
-        onClick={ () => filterRecipes('meal') }
-      >
-        Meals
-      </button>
-      <button
-        data-testid="filter-by-drink-btn"
-        onClick={ () => filterRecipes('drink') }
-      >
-        Drinks
-      </button>
-      <div>
+    <section className={ styles.donePage }>
+      <div className={ styles.topBtnsDiv }>
+        <button
+          className={ styles.topBtns }
+          data-testid="filter-by-all-btn"
+          onClick={ () => filterRecipes('all') }
+        >
+          All
+        </button>
+        <button
+          className={ styles.topBtns }
+          data-testid="filter-by-meal-btn"
+          onClick={ () => filterRecipes('meal') }
+        >
+          Meals
+        </button>
+        <button
+          className={ styles.topBtns }
+          data-testid="filter-by-drink-btn"
+          onClick={ () => filterRecipes('drink') }
+        >
+          Drinks
+        </button>
+      </div>
+      <div className={ styles.doneRecipes }>
         {filteredRecipes.map((recipe: Recipe, index:number) => (
           <div
+            className={ styles.doneCards }
             key={ index }
             data-testid={ `${index}-recipe-card` }
           >
@@ -50,6 +57,7 @@ function DoneRecipes() {
               style={ { border: 'none', background: 'transparent' } }
             >
               <img
+                className={ styles.image }
                 src={ recipe.image }
                 alt={ recipe.name }
                 data-testid={ `${index}-horizontal-image` }
@@ -76,14 +84,16 @@ function DoneRecipes() {
               </p>
             </button>
             <p data-testid={ `${index}-horizontal-done-date` }>{recipe.doneDate}</p>
-            <div>
+            <div className={ styles.tags }>
               {recipe.tags.map((tag, tagIndex) => (
                 <span key={ tagIndex } data-testid={ `${index}-${tag}-horizontal-tag` }>
                   {tag}
+                  {recipe.tags.length > 1 && ','}
                 </span>
               ))}
             </div>
             <button
+              className={ styles.shareBtn }
               onClick={ () => handleShareClickDone(recipe.type, recipe.id) }
             >
               <img
@@ -98,7 +108,7 @@ function DoneRecipes() {
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 }
 

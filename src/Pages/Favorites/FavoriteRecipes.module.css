@@ -1,0 +1,81 @@
+.favoritesPage {
+  align-items: center;
+  background-color: rgba(255, 217, 0, 0.336);
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  height: 100%;
+}
+
+.topBtnsDiv {
+  display: flex;
+  gap: 10px;
+}
+
+.topBtns {
+  border: 1px solid black;
+  border-radius: 5px;
+  margin-top: 30px;
+  width: 100px;
+}
+
+.favRecipesDiv {
+  display: flex;
+  gap: 20px;
+  overflow: auto;
+  padding-bottom: 20px;
+}
+
+.favCard {
+  align-items: center;
+  background-color: rgba(204, 252, 182, 0.342);
+  border: 1px solid black;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  justify-content: center;
+  padding: 10px;
+  width: 300px;
+}
+
+.nameBtn {
+  background: none;
+  border: none;
+}
+
+.cardBtnsDiv {
+  display: flex;
+  gap: 5px;
+}
+
+.cardBottomBtns {
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+
+.imageBtn {
+  background: none;
+  border: none;
+}
+
+.img {
+  border: none;
+  border-radius: 5px;
+}
+
+@media ( max-width : 600px ) {
+
+  .favRecipesDiv {
+    flex-direction: column;
+  }
+
+  .favCard {
+    width: 280px;
+  }
+
+  .topBtns {
+    width: 80px;
+  }
+}
